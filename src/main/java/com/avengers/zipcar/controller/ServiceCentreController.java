@@ -14,7 +14,7 @@ public class ServiceCentreController {
     @Autowired
     ServiceCentreService serviceCentreService;
 
-    @RequestMapping("/api/insurance-policy/all")
+    @RequestMapping("/api/service-centre/all")
     public List<ServiceCentre> getServiceCentres() {
         return serviceCentreService.getAllServiceCentres();
     }
