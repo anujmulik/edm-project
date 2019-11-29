@@ -71,8 +71,8 @@ export default function MainScreen() {
                     <Tab label="Refunds" {...a11yProps(2)} />
                     <Tab label="Escalation" {...a11yProps(3)} />
                     <Tab label="Customers" {...a11yProps(4)} />
-                    <Tab label="Item Six" {...a11yProps(5)} />
-                    <Tab label="Item Seven" {...a11yProps(6)} />
+                    <Tab label="Fines" {...a11yProps(5)} />
+                    <Tab label="Payments" {...a11yProps(6)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
