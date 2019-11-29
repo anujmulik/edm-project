@@ -15,7 +15,7 @@ public class CarController {
     CarService carService;
 
     @RequestMapping("/api/cars/all")
-    public List<Car> getCustomers() {
+    public List<Car> getCars() {
         return carService.getAllCars();
     }
 
