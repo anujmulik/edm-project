@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -48,7 +48,21 @@ const useStyles = makeStyles(theme => ({
 
 export default function MainScreen() {
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
+
+    //https://stackoverflow.com/questions/53219113/where-can-i-make-api-call-with-hooks-in-react
+
+    const [cars, setCars] = useState(null);
+    useEffect(() => {
+        fetch('/api/cars/all')
+            .then(results => results.json())
+            .then(data => {
+                setCars(data);
+                console.log(JSON.stringify(data));
+            });
+    }, []); // <-- Have to pass in [] here!
+
+
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
