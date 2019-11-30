@@ -2,12 +2,22 @@ package com.avengers.zipcar.entity;
 
 
 public class IssueType {
+    private String issueTypeId;
     private String sla;
     private String name;
 
-    public IssueType(String sla, String name) {
+    public IssueType(String issueTypeId, String sla, String name) {
+        this.issueTypeId = issueTypeId;
         this.sla = sla;
         this.name = name;
+    }
+
+    public String getIssueTypeId() {
+        return issueTypeId;
+    }
+
+    public void setIssueTypeId(String issueTypeId) {
+        this.issueTypeId = issueTypeId;
     }
 
     public String getSla() {
@@ -29,7 +39,8 @@ public class IssueType {
     @Override
     public String toString() {
         return "IssueType{" +
-                "sla='" + sla + '\'' +
+                "issueTypeId='" + issueTypeId + '\'' +
+                ", sla='" + sla + '\'' +
                 ", name='" + name + '\'' +
                 '}';
     }
