@@ -79,7 +79,6 @@ export default function Chauffeurs () {
         }).then(handleErrors)
             .then(response => fetchData())
             .catch((error) => {
-                console.log('error is', error);
                 setOpen(true);
             });
     }
@@ -103,7 +102,6 @@ export default function Chauffeurs () {
         }).then(handleErrors)
             .then(response => fetchData())
             .catch((error) => {
-                console.log('error is', error);
                 setOpen(true);
             });
     }
@@ -118,7 +116,6 @@ export default function Chauffeurs () {
         }).then(handleErrors)
             .then(response => fetchData())
             .catch((error) => {
-                console.log('error is', error);
                 setOpen(true);
             });
     }

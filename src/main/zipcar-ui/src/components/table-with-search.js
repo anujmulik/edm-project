@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import MaterialTable from 'material-table';
 
-export default function TableWithSearch({columns, data, title, addCall, updateCall, deleteCall, components }) {
+export default function TableWithSearch({columns, data, title, addCall, updateCall, deleteCall, components, onSelect, pageSize=20, editable=true, deletable=true }) {
 
 
     const [selectedRow, setSelectedRow] = useState(null);
@@ -13,16 +13,17 @@ export default function TableWithSearch({columns, data, title, addCall, updateCa
             onRowClick={((evt, selectedRow) =>
             {
                 setSelectedRow(selectedRow);
+                onSelect(selectedRow);
             })}
             options={{
                 rowStyle: rowData => ({
                     backgroundColor: (selectedRow && selectedRow.tableData.id === rowData.tableData.id) ? '#EEE' : '#FFF'
                 }),
-                pageSize: 20,
+                pageSize: pageSize,
                 emptyRowsWhenPaging: false,
                 addRowPosition: 'first'
             }}
-            editable={{
+            editable= {editable ? {
                 onRowAdd: newData => new Promise ((resolve, reject) => {
                     setTimeout(()=> {
                             addCall(newData);
@@ -30,15 +31,14 @@ export default function TableWithSearch({columns, data, title, addCall, updateCa
                     }, 1000)
 
                 }),
-                onRowDelete: oldData => new Promise ((resolve, reject) => {
+                onRowDelete: deletable ? oldData => new Promise ((resolve, reject) => {
                     setTimeout(()=> {
-                    console.log(' the delete function is', deleteCall);
                     deleteCall(oldData);
                     setSelectedRow(null);
 
                 resolve()
             }, 1000)
-        }),
+        }): undefined,
 
                 onRowUpdate: (newData, oldData) => new Promise ((resolve, reject) => {
                     setTimeout(()=> {
@@ -49,7 +49,7 @@ export default function TableWithSearch({columns, data, title, addCall, updateCa
                     }, 1000)
                 })
 
-            }}
+            } : undefined}
             components={components}
         />
     );

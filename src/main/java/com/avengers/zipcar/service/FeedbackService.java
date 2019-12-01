@@ -17,7 +17,7 @@ public class FeedbackService {
 
     public List<Feedback> getAllFeedbacks() {
         SimpleJdbcCall call =
-                new SimpleJdbcCall(jdbcTemplate).withFunctionName("GET_FEEDBACKS");
+                new SimpleJdbcCall(jdbcTemplate).withFunctionName("GET_FEEDBACK");
         return call.executeFunction(List.class);
     }
 
@@ -43,7 +43,7 @@ public class FeedbackService {
 
     public void deleteFeedback(String feedbackId) {
         SimpleJdbcCall call =
-                new SimpleJdbcCall(jdbcTemplate).withProcedureName("DELETE_FEEDBACK_BY_FEEDBACKID");
+                new SimpleJdbcCall(jdbcTemplate).withProcedureName("DELETE_FEEDBACK_BY_FEEDBACK_ID");
 
         SqlParameterSource paramMap = new MapSqlParameterSource()
                 .addValue("feedback_id_ins", feedbackId);

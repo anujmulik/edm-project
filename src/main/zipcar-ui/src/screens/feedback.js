@@ -71,7 +71,6 @@ export default function Feedback () {
     }
 
     function addCall (data)  {
-        console.log(data);
         fetch('/api/feedback', {
             method: 'POST',
             body: JSON.stringify({
@@ -88,7 +87,6 @@ export default function Feedback () {
         }).then(handleErrors)
             .then(response => fetchData())
             .catch((error) => {
-                console.log('error is', error);
                 setOpen(true);
             });
     }
@@ -109,7 +107,6 @@ export default function Feedback () {
         }).then(handleErrors)
             .then(response => fetchData())
             .catch((error) => {
-                console.log('error is', error);
                 setOpen(true);
             });
     }
@@ -124,7 +121,6 @@ export default function Feedback () {
         }).then(handleErrors)
             .then(response => fetchData())
             .catch((error) => {
-                console.log('error is', error);
                 setOpen(true);
             });
     }

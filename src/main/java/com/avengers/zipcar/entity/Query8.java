@@ -1,6 +1,8 @@
 package com.avengers.zipcar.entity;
 
 public class Query8 {
+
+    private String segment;
     private float averageBookingPrice;
     private float averageLabourCost;
     private float averageEquipmentCost;
@@ -9,7 +11,8 @@ public class Query8 {
     private float percentageEquipmentCost;
     private float rateOfReturn;
 
-    public Query8(float averageBookingPrice, float averageLabourCost, float averageEquipmentCost, float averageServiceCost, float percentageLabourCost, float percentageEquipmentCost, float rateOfReturn) {
+    public Query8(String segment, float averageBookingPrice, float averageLabourCost, float averageEquipmentCost, float averageServiceCost, float percentageLabourCost, float percentageEquipmentCost, float rateOfReturn) {
+        this.segment = segment;
         this.averageBookingPrice = averageBookingPrice;
         this.averageLabourCost = averageLabourCost;
         this.averageEquipmentCost = averageEquipmentCost;
@@ -17,6 +20,14 @@ public class Query8 {
         this.percentageLabourCost = percentageLabourCost;
         this.percentageEquipmentCost = percentageEquipmentCost;
         this.rateOfReturn = rateOfReturn;
+    }
+
+    public String getSegment() {
+        return segment;
+    }
+
+    public void setSegment(String segment) {
+        this.segment = segment;
     }
 
     public float getAverageBookingPrice() {
@@ -78,7 +89,8 @@ public class Query8 {
     @Override
     public String toString() {
         return "Query8{" +
-                "averageBookingPrice=" + averageBookingPrice +
+                "segment='" + segment + '\'' +
+                ", averageBookingPrice=" + averageBookingPrice +
                 ", averageLabourCost=" + averageLabourCost +
                 ", averageEquipmentCost=" + averageEquipmentCost +
                 ", averageServiceCost=" + averageServiceCost +

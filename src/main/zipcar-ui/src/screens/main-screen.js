@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -12,6 +12,8 @@ import Chauffeurs from "./chauffeurs";
 import CSR from "./csr";
 import IssueTypes from "./issue-type";
 import Feedback from "./feedback";
+import Queries from "./queries";
+import CarSelection from "../components/car-selection";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -55,19 +57,6 @@ export default function MainScreen() {
     const classes = useStyles();
     const [value, setValue] = useState(0);
 
-    //https://stackoverflow.com/questions/53219113/where-can-i-make-api-call-with-hooks-in-react
-
-    const [cars, setCars] = useState(null);
-    useEffect(() => {
-        fetch('/api/cars/all')
-            .then(results => results.json())
-            .then(data => {
-                setCars(data);
-            });
-    }, []); // <-- Have to pass in [] here!
-
-
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -84,17 +73,18 @@ export default function MainScreen() {
                     scrollButtons="auto"
                     aria-label="scrollable auto tabs example"
                 >
-                    <Tab label="Bookings" {...a11yProps(0)} />
+                    <Tab label="Car Selection" {...a11yProps(0)} />
                     <Tab label="Chauffeurs" {...a11yProps(1)} />
                     <Tab label="Refunds" {...a11yProps(2)} />
                     <Tab label="CSR" {...a11yProps(3)} />
                     <Tab label="Issue Types" {...a11yProps(4)} />
                     <Tab label="Feedback" {...a11yProps(5)} />
-                    <Tab label="Payments" {...a11yProps(6)} />
+                    <Tab label="Queries" {...a11yProps(6)} />
+                    <Tab label="Bookings" {...a11yProps(7)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                <Bookings/>
+                <CarSelection/>
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <Chauffeurs/>
@@ -112,7 +102,10 @@ export default function MainScreen() {
                 <Feedback/>
             </TabPanel>
             <TabPanel value={value} index={6}>
-                Item Seven
+                <Queries/>
+            </TabPanel>
+            <TabPanel value={value} index={7}>
+                <Bookings/>
             </TabPanel>
         </div>
     );

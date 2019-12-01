@@ -43,7 +43,6 @@ export default function IssueTypes () {
     }
 
     const addCall = (data) =>  {
-        console.log('the data is', {sla: data.SLA, name: data.NAME});
         fetch('/api/issue-types', {
             method: 'POST',
             body: JSON.stringify({
@@ -57,7 +56,6 @@ export default function IssueTypes () {
         }).then(handleErrors)
             .then(response => fetchData())
             .catch((error) => {
-                console.log('error is', error);
                 setOpen(true);
             });
     };
@@ -76,7 +74,6 @@ export default function IssueTypes () {
         }).then(handleErrors)
             .then(response => fetchData())
             .catch((error) => {
-                console.log('error is', error);
                 setOpen(true);
             });
     };
@@ -91,7 +88,6 @@ export default function IssueTypes () {
         }).then(handleErrors)
             .then(response => fetchData())
             .catch((error) => {
-                console.log('error is', error);
                 setOpen(true);
             });
     };
