@@ -1,0 +1,23 @@
+package com.avengers.zipcar.controller;
+
+import com.avengers.zipcar.entity.Query8;
+import com.avengers.zipcar.service.Query8Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+public class Query8Controller {
+
+    @Autowired
+    Query8Service query8Service;
+
+    @RequestMapping("/api/query8")
+    public List<Query8> getQuery8() {
+        return query8Service.getQuery8();
+    }
+
+
+}
