@@ -24,7 +24,7 @@ public class FeedbackController {
     }
 
     @PostMapping("/api/feedback")
-    void addFeedback(@RequestBody Feedback feedback) {
+    public void addFeedback(@RequestBody Feedback feedback) {
         feedbackService.addFeedback(feedback);
     }
 

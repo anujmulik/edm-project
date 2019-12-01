@@ -10,6 +10,7 @@ import Bookings from './bookings';
 import Refunds from "./refunds";
 import Chauffeurs from "./chauffeurs";
 import CSR from "./csr";
+import IssueTypes from "./issue-type";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -86,7 +87,7 @@ export default function MainScreen() {
                     <Tab label="Chauffeurs" {...a11yProps(1)} />
                     <Tab label="Refunds" {...a11yProps(2)} />
                     <Tab label="CSR" {...a11yProps(3)} />
-                    <Tab label="Customers" {...a11yProps(4)} />
+                    <Tab label="Issue Types" {...a11yProps(4)} />
                     <Tab label="Fines" {...a11yProps(5)} />
                     <Tab label="Payments" {...a11yProps(6)} />
                 </Tabs>
@@ -104,7 +105,7 @@ export default function MainScreen() {
                 <CSR/>
             </TabPanel>
             <TabPanel value={value} index={4}>
-                Item Five
+                <IssueTypes/>
             </TabPanel>
             <TabPanel value={value} index={5}>
                 Item Six

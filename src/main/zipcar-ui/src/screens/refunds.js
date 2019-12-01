@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import TableWithSearch from "../components/table-with-search";
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 
 const refundColumns = [
     { title: 'Booking ID', field: 'BOOKING_ID', editable: 'onAdd'},
@@ -29,39 +32,65 @@ export default function Refunds () {
         fetchData();
     }, []);
 
+    const [open, setOpen] = React.useState(false);
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    function handleErrors(response) {
+        if (!response.ok) {
+            throw Error(response.statusText);
+        }
+        return response;
+    }
 
     function addCall (data)  {
         fetch('/api/refunds', {
             method: 'POST',
-            body: {
+            body: JSON.stringify({
                 bookingId: data.BOOKING_ID,
                 amount: data.AMOUNT,
                 status: 'INITIATED',
                 reason: data.REASON,
                 refundTimestamp: data.REFUND_TIMESTAMP
-            },
+            }),
             headers: {
                 'Accept': 'application/json, text/plain',
                 'Content-Type': 'application/json;charset=UTF-8'
             }
-        }).then(response => fetchData());
+        }).then(handleErrors)
+            .then(response => fetchData())
+            .catch((error) => {
+                console.log('error is', error);
+                setOpen(true);
+            });
     }
 
     function updateCall (data)  {
         fetch(`/api/refunds/${data.BOOKING_ID}/${data.INSTANCE}`, {
             method: 'PUT',
-            body: {
+            body: JSON.stringify({
                 bookingId: data.BOOKING_ID,
                 amount: data.AMOUNT,
                 status: 'INITIATED',
                 reason: data.REASON,
                 refundTimestamp: data.REFUND_TIMESTAMP
-            },
+            }),
             headers: {
                 'Accept': 'application/json, text/plain',
                 'Content-Type': 'application/json;charset=UTF-8'
             }
-        }).then(response => fetchData());
+        }).then(handleErrors)
+            .then(response => fetchData())
+            .catch((error) => {
+                console.log('error is', error);
+                setOpen(true);
+            });
     }
 
     function deleteCall (data)  {
@@ -71,7 +100,12 @@ export default function Refunds () {
                 'Accept': 'application/json, text/plain',
                 'Content-Type': 'application/json;charset=UTF-8'
             }
-        }).then(response => fetchData());
+        }).then(handleErrors)
+            .then(response => fetchData())
+            .catch((error) => {
+                console.log('error is', error);
+                setOpen(true);
+            });
     }
 
     return(
@@ -86,6 +120,31 @@ export default function Refunds () {
             updateCall={updateCall}
             deteleCall={deleteCall}
             /> }
+
+            {open && <Snackbar
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                }}
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                ContentProps={{
+                    'aria-describedby': 'message-id',
+                }}
+                message={<span id="message-id">Oops! Something went wrong</span>}
+                action={[
+
+                    <IconButton
+                        key="close"
+                        aria-label="close"
+                        color="inherit"
+                        onClick={handleClose}
+                    >
+                        <CloseIcon />
+                    </IconButton>,
+                ]}
+            />}
         </div>
     )
 }

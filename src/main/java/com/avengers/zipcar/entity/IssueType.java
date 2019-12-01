@@ -3,10 +3,10 @@ package com.avengers.zipcar.entity;
 
 public class IssueType {
     private String issueTypeId;
-    private String sla;
+    private float sla;
     private String name;
 
-    public IssueType(String issueTypeId, String sla, String name) {
+    public IssueType(String issueTypeId, float sla, String name) {
         this.issueTypeId = issueTypeId;
         this.sla = sla;
         this.name = name;
@@ -20,11 +20,11 @@ public class IssueType {
         this.issueTypeId = issueTypeId;
     }
 
-    public String getSla() {
+    public float getSla() {
         return sla;
     }
 
-    public void setSla(String sla) {
+    public void setSla(float sla) {
         this.sla = sla;
     }
 
@@ -40,7 +40,7 @@ public class IssueType {
     public String toString() {
         return "IssueType{" +
                 "issueTypeId='" + issueTypeId + '\'' +
-                ", sla='" + sla + '\'' +
+                ", sla=" + sla +
                 ", name='" + name + '\'' +
                 '}';
     }

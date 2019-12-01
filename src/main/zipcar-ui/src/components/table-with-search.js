@@ -5,8 +5,6 @@ export default function TableWithSearch({columns, data, title, addCall, updateCa
 
 
     const [selectedRow, setSelectedRow] = useState(null);
-
-
     return (
         <MaterialTable
             title={title}
@@ -34,7 +32,7 @@ export default function TableWithSearch({columns, data, title, addCall, updateCa
                 }),
                 onRowDelete: oldData => new Promise ((resolve, reject) => {
                     setTimeout(()=> {
-
+                    console.log(' the delete function is', deleteCall);
                     deleteCall(oldData);
                     setSelectedRow(null);
 
@@ -52,10 +50,7 @@ export default function TableWithSearch({columns, data, title, addCall, updateCa
                 })
 
             }}
-
             components={components}
-
-
         />
     );
 }

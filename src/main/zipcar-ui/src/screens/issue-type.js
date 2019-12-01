@@ -4,40 +4,22 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
+const issueTypeColumns = [
+    { title: 'Issue Type ID', field: 'ISSUE_TYPE_ID', editable: 'never'},
+    { title: 'SLA', field: 'SLA', type: 'numeric' },
+    { title: 'Name', field: 'NAME' }
+];
 
-export default function Chauffeurs () {
-    const [chauffeurs, setChauffeurs] = useState(null);
-    const [states, setStates] = useState(null);
+export default function IssueTypes () {
+    const [issueTypes, setIssueTypes] = useState(null);
 
     const fetchData = () => {
-        fetch('/api/chauffeur/all')
+        fetch('/api/issue-types/all')
             .then(results => results.json())
             .then(data => {
-                setChauffeurs(data);
-            });
-
-        fetch('/api/states/all')
-            .then(results => results.json())
-            .then(data => {
-                setStates(data);
+                setIssueTypes(data);
             });
     };
-
-    const getStates = () => {
-        let final = {};
-        states.map(state => (final[state.STATE_CODE]=`${state.STATE_NAME}`));
-        return final;
-    };
-
-    const chauffeurColumns = () => [
-        { title: 'Employee ID', field: 'EMPLOYEE_ID', editable: 'never' },
-        { title: 'First Name', field: 'FIRST_NAME' },
-        { title: 'Last Name', field: 'LAST_NAME',  },
-        { title: 'Expiry Date', field: 'EXPIRY_DATE', type: 'date' },
-        { title: 'State', field: 'STATE', lookup: getStates() },
-        { title: 'DL Number', field: 'DL_NUMBER'}
-    ];
-
 
     useEffect(() => {
         fetchData();
@@ -60,17 +42,13 @@ export default function Chauffeurs () {
         return response;
     }
 
-    function addCall (data)  {
-        fetch('/api/chauffeur', {
+    const addCall = (data) =>  {
+        console.log('the data is', {sla: data.SLA, name: data.NAME});
+        fetch('/api/issue-types', {
             method: 'POST',
             body: JSON.stringify({
-                employeeId: null,
-                firstName: data.FIRST_NAME,
-                lastName: data.LAST_NAME,
-                type: 'CH',
-                dlNumber: data.DL_NUMBER,
-                expiryDate: data.EXPIRY_DATE,
-                issuingState: data.STATE
+                "sla": data.SLA,
+                "name": data.NAME
             }),
             headers: {
                 'Accept': 'application/json, text/plain',
@@ -82,19 +60,14 @@ export default function Chauffeurs () {
                 console.log('error is', error);
                 setOpen(true);
             });
-    }
+    };
 
-
-    function updateCall (data)  {
-        fetch(`/api/chauffeur/${data.EMPLOYEE_ID}`, {
+     const updateCall =  (data) =>  {
+        fetch(`/api/issue-types/${data.ISSUE_TYPE_ID}`, {
             method: 'PUT',
             body: JSON.stringify({
-                firstName: data.FIRST_NAME,
-                lastName: data.LAST_NAME,
-                type: 'CH',
-                dlNumber: data.DL_NUMBER,
-                expiryDate: data.EXPIRY_DATE,
-                issuingState: data.STATE
+                "sla": data.SLA,
+                "name": data.NAME
             }),
             headers: {
                 'Accept': 'application/json, text/plain',
@@ -106,10 +79,10 @@ export default function Chauffeurs () {
                 console.log('error is', error);
                 setOpen(true);
             });
-    }
+    };
 
-    function deleteCall (data)  {
-        fetch(`/api/chauffeur/${data.EMPLOYEE_ID}`, {
+     const deleteCall  = (data) =>  {
+        fetch(`/api/issue-types/${data.ISSUE_TYPE_ID}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json, text/plain',
@@ -121,18 +94,20 @@ export default function Chauffeurs () {
                 console.log('error is', error);
                 setOpen(true);
             });
-    }
-
+    };
 
     return(
         <div>
-            { !chauffeurs || !states ? 'Loading...' : <TableWithSearch
-                title ={'Chauffeurs'}
-                data={chauffeurs}
-                columns={chauffeurColumns()}
-                addCall={addCall}
-            updateCall={updateCall}
-            deleteCall={deleteCall}/> }
+            { !issueTypes ? 'Loading...' :
+                <TableWithSearch
+                    title ={'Issue Types'}
+                    data={issueTypes}
+                    columns={issueTypeColumns}
+                    fetchCall={fetchData}
+                    addCall={addCall}
+                    updateCall={updateCall}
+                    deleteCall={deleteCall}
+                /> }
 
             {open && <Snackbar
                 anchorOrigin={{

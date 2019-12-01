@@ -11,24 +11,24 @@ import java.util.List;
 public class IssueTypeController {
 
     @Autowired
-    IssueTypeService issueTypeService;
+    private IssueTypeService issueTypeService;
 
-    @RequestMapping("/api/issuetype/all")
+    @RequestMapping("/api/issue-types/all")
     public List<IssueType> getAllIssueTypes() {
         return issueTypeService.getAllIssueTypes();
     }
 
-    @PostMapping("/api/issuetype")
-    void addIssueType(@RequestBody IssueType issueType) {
+    @PostMapping("/api/issue-types")
+    public void addIssueType(@RequestBody IssueType issueType) {
         issueTypeService.addIssueType(issueType);
     }
 
-    @DeleteMapping("/api/issuetype/{issueTypeId}")
+    @DeleteMapping("/api/issue-types/{issueTypeId}")
     public void deleteIssueType(@PathVariable String issueTypeId) {
         issueTypeService.deleteIssueType(issueTypeId);
     }
 
-    @PutMapping("/api/issuetype/{issueTypeId}")
+    @PutMapping("/api/issue-types/{issueTypeId}")
     public void updateIssueType(@PathVariable String issueTypeId, @RequestBody IssueType issueType)
     {
         issueTypeService.updateIssueType(issueType, issueTypeId);
