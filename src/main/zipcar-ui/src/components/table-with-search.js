@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import MaterialTable from 'material-table';
 
-export default function TableWithSearch({columns, data, title, addCall, updateCall, deleteCall }) {
+export default function TableWithSearch({columns, data, title, addCall, updateCall, deleteCall, components }) {
 
 
     const [selectedRow, setSelectedRow] = useState(null);
@@ -54,6 +54,8 @@ export default function TableWithSearch({columns, data, title, addCall, updateCa
                 })
 
             }}
+
+            components={components}
 
 
         />

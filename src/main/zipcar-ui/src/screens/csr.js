@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import TableWithSearch from "../components/table-with-search";
+import {MTableEditField} from "material-table";
+import _ from 'lodash';
 
 const csrColumns = [
     { title: 'Employee ID', field: 'EMPLOYEE_ID', editable: 'never' },
@@ -14,17 +16,19 @@ export default function CSR () {
 
     const [csr, setCsr] = useState(null);
 
-    /*const getCSRExceptSelected = (rowData) => {
+    const getCSRExceptSelected = (rowData) => {
 
-        const list = csr.map(emp => ({[emp.EMPLOYEE_ID]: `${emp.FIRST_NAME} ${emp.LAST_NAME}`}));
+        let final = {};
+        csr.map(emp => (final[emp.EMPLOYEE_ID]=`${emp.FIRST_NAME} ${emp.LAST_NAME}`));
 
-        if (_.isEmpty(rowData))
-            return list;
-        else
-            return list.filter( listItem => listItem.value != rowData.EMPLOYEE_ID);
-    };*/
+        if (!_.isEmpty(rowData))
+            delete final[rowData.EMPLOYEE_ID];
 
-    /*const components = {
+        return final;
+
+    };
+
+    const components = {
         EditField: props => {
             console.log(JSON.stringify(props));
             if (props.columnDef.field != 'ESCALATION_CONTACT_NAME') {
@@ -40,7 +44,7 @@ export default function CSR () {
 
         },
     };
-*/
+
 
     const fetchData = () => {
         fetch('/api/csr/all')
@@ -113,6 +117,7 @@ export default function CSR () {
                 addCall={addCall}
                 updateCall={updateCall}
                 deleteCall={deleteCall}
+                components={components}
             />
 
             }
