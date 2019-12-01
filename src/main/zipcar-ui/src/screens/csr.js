@@ -1,14 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import TableWithSearch from "../components/table-with-search";
-import {MTableEditField} from "material-table";
+import {MTableCell, MTableEditField} from "material-table";
 import _ from 'lodash';
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from '@material-ui/icons/Close';
 
 const csrColumns = [
     { title: 'Employee ID', field: 'EMPLOYEE_ID', editable: 'never' },
     { title: 'First Name', field: 'FIRST_NAME' },
     { title: 'Last Name', field: 'LAST_NAME'},
-    { title: 'Escalation Contact', field: 'ESCALATION_CONTACT_NAME'},
-    { title: 'Shift Details', field: 'SHIFT_DETAILS'},
+    { title: 'Escalation Contact', field: 'ESCALATION_CONTACT'},
+    { title: 'Shift Details', field: 'SHIFT_DETAILS', lookup: {A:'A', B:'B',C:'C'}},
     { title: 'Email ID', field: 'EMAIL_ID'}
 ];
 
@@ -30,19 +33,28 @@ export default function CSR () {
 
     const components = {
         EditField: props => {
-            console.log(JSON.stringify(props));
-            if (props.columnDef.field != 'ESCALATION_CONTACT_NAME') {
-                return <MTableEditField {...props}/>;
+            if (props.columnDef.field === 'ESCALATION_CONTACT') {
+                _.update(props, 'columnDef.lookup', () => getCSRExceptSelected(props.rowData));
+                return (
+                    <MTableEditField {...props}/>
+                );
             }
             else {
-                _.update(props, 'columnDef.lookup', () => getCSRExceptSelected(props.rowData));
-                console.log('new props is ', JSON.stringify(props));
-                return (
-                        <MTableEditField {...props}/>
-                );
+                return <MTableEditField {...props}/>;
             }
 
         },
+        Cell: props => {
+            if (props.columnDef.field === 'ESCALATION_CONTACT') {
+                return (
+                    <MTableCell {...props} value={props.rowData.ESCALATION_CONTACT_NAME}/>
+                );
+            }
+            else {
+                return <MTableCell {...props}/>;
+            }
+        }
+
     };
 
 
@@ -59,23 +71,52 @@ export default function CSR () {
     }, []);
 
 
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    function handleErrors(response) {
+        if (!response.ok) {
+            throw Error(response.statusText);
+        }
+        return response;
+    }
+
+
     function addCall (data)  {
-        fetch('/api/csr', {
-            method: 'POST',
-            body: JSON.stringify({
-                employeeId: null,
-                firstName: data.FIRST_NAME,
-                lastName: data.LAST_NAME,
-                type: 'CSR',
-                escalationContact: data.ESCALATION_CONTACT,
-                emailId: data.EMAIL_ID,
-                shiftDetails: data.SHIFT_DETAILS
-            }),
-            headers: {
-                'Accept': 'application/json, text/plain',
-                'Content-Type': 'application/json;charset=UTF-8'
-            }
-        }).then(response => fetchData());
+        console.log('the data is', data);
+            fetch('/api/csr', {
+                method: 'POST',
+                body: JSON.stringify({
+                    employeeId: null,
+                    firstName: data.FIRST_NAME,
+                    lastName: data.LAST_NAME,
+                    type: 'CSR',
+                    escalationContact: data.ESCALATION_CONTACT,
+                    emailId: data.EMAIL_ID,
+                    shiftDetails: data.SHIFT_DETAILS
+                }),
+                headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                }
+            }).then(handleErrors)
+                .then(response => fetchData())
+                .catch((error) => {
+                    console.log('error is', error);
+                    setOpen(true);
+                });
     }
 
 
@@ -94,7 +135,12 @@ export default function CSR () {
                 'Accept': 'application/json, text/plain',
                 'Content-Type': 'application/json;charset=UTF-8'
             }
-        }).then(response => fetchData());
+        }).then(handleErrors)
+            .then(response => fetchData())
+            .catch((error) => {
+                console.log('error is', error);
+                setOpen(true);
+            });
     }
 
     function deleteCall (data)  {
@@ -104,7 +150,12 @@ export default function CSR () {
                 'Accept': 'application/json, text/plain',
                 'Content-Type': 'application/json;charset=UTF-8'
             }
-        }).then(response => fetchData());
+        }).then(handleErrors)
+            .then(response => fetchData())
+            .catch((error) => {
+                console.log('error is', error);
+                setOpen(true);
+            });
     }
 
 
@@ -121,6 +172,31 @@ export default function CSR () {
             />
 
             }
+
+            {open && <Snackbar
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                }}
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                ContentProps={{
+                    'aria-describedby': 'message-id',
+                }}
+                message={<span id="message-id">Oops! Something went wrong</span>}
+                action={[
+
+                    <IconButton
+                        key="close"
+                        aria-label="close"
+                        color="inherit"
+                        onClick={handleClose}
+                    >
+                        <CloseIcon />
+                    </IconButton>,
+                ]}
+            />}
         </div>
     )
 }

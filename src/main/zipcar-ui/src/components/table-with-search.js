@@ -27,28 +27,26 @@ export default function TableWithSearch({columns, data, title, addCall, updateCa
             editable={{
                 onRowAdd: newData => new Promise ((resolve, reject) => {
                     setTimeout(()=> {
-                        {
                             addCall(newData);
-                        }
                         resolve()
                     }, 1000)
 
                 }),
                 onRowDelete: oldData => new Promise ((resolve, reject) => {
                     setTimeout(()=> {
-                {
+
                     deleteCall(oldData);
                     setSelectedRow(null);
-                }
+
                 resolve()
             }, 1000)
         }),
 
                 onRowUpdate: (newData, oldData) => new Promise ((resolve, reject) => {
                     setTimeout(()=> {
-                        {
+
                             updateCall(newData);
-                        }
+
                         resolve()
                     }, 1000)
                 })
