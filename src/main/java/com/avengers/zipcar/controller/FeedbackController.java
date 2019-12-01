@@ -14,7 +14,7 @@ public class FeedbackController {
     FeedbackService feedbackService;
 
     @RequestMapping("/api/feedback/all")
-    public List<Feedback> getAllFeedbacks() {
+    public List<Feedback> getAllFeedback() {
         return feedbackService.getAllFeedbacks();
     }
 

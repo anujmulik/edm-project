@@ -55,7 +55,7 @@ public class FeedbackService {
                 new SimpleJdbcCall(jdbcTemplate).withProcedureName("UPDATE_FEEDBACK");
 
         SqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("employee_id_ins", feedbackId)
+                .addValue("feedback_id_ins", feedbackId)
                 .addValue("feedback_text_ins", feedback.getFeedbackText())
                 .addValue("category_ins", feedback.getCategory())
                 .addValue("rating_ins", feedback.getRating())

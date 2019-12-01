@@ -5,16 +5,18 @@ public class Feedback {
     private String feedbackId;
     private String feedbackText;
     private String category;
-    private String rating;
+    private int rating;
     private String accountId;
+    private String username;
 
 
-    public Feedback(String feedbackId, String feedbackText, String category, String rating, String accountId) {
+    public Feedback(String feedbackId, String feedbackText, String category, int rating, String accountId, String username) {
         this.feedbackId = feedbackId;
         this.feedbackText = feedbackText;
         this.category = category;
         this.rating = rating;
         this.accountId = accountId;
+        this.username = username;
     }
 
     public String getFeedbackId() {
@@ -41,11 +43,11 @@ public class Feedback {
         this.category = category;
     }
 
-    public String getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 
@@ -57,14 +59,23 @@ public class Feedback {
         this.accountId = accountId;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Override
     public String toString() {
         return "Feedback{" +
                 "feedbackId='" + feedbackId + '\'' +
                 ", feedbackText='" + feedbackText + '\'' +
                 ", category='" + category + '\'' +
-                ", rating='" + rating + '\'' +
+                ", rating=" + rating +
                 ", accountId='" + accountId + '\'' +
+                ", username='" + username + '\'' +
                 '}';
     }
 }
