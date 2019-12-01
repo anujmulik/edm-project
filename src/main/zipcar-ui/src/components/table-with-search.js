@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import MaterialTable from 'material-table';
 
-export default function TableWithSearch({columns, data, title, addCall, updateCall, deleteCall, components, editable=true, deletable=true }) {
+export default function TableWithSearch({columns, data, title, addCall, updateCall, deleteCall, components, onSelect, pageSize=20, editable=true, deletable=true }) {
 
 
     const [selectedRow, setSelectedRow] = useState(null);
@@ -13,12 +13,13 @@ export default function TableWithSearch({columns, data, title, addCall, updateCa
             onRowClick={((evt, selectedRow) =>
             {
                 setSelectedRow(selectedRow);
+                onSelect(selectedRow);
             })}
             options={{
                 rowStyle: rowData => ({
                     backgroundColor: (selectedRow && selectedRow.tableData.id === rowData.tableData.id) ? '#EEE' : '#FFF'
                 }),
-                pageSize: 20,
+                pageSize: pageSize,
                 emptyRowsWhenPaging: false,
                 addRowPosition: 'first'
             }}

@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -29,4 +30,14 @@ public class BookingService {
                 .addValue("accountId", accountId);
         return call.executeFunction(List.class, paramMap);
     }
+    public Float getBaseAmount(Timestamp endTime, Timestamp startTime, String vin) {
+        SimpleJdbcCall call =
+                new SimpleJdbcCall(jdbcTemplate).withFunctionName("CALCULATE_BASE_PRICE");
+        SqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("end_time_ins", endTime)
+                .addValue("start_time_ins", startTime)
+                .addValue("vin_ins", vin);
+        return call.executeFunction(Float.class, paramMap);
+    }
+
 }
