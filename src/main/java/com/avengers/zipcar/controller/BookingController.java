@@ -17,12 +17,12 @@ public class BookingController {
     BookingService bookingService;
 
     @RequestMapping("/api/bookings/all")
-    public List<Booking> getAllEmployees() {
+    public List<Booking> getAllBookings() {
         return bookingService.getAllBookings();
     }
 
     @RequestMapping("/api/bookings")
-    public List<Booking> getAllEmployeesByType(@RequestParam("account-id") String accountId) {
+    public List<Booking> getBookingsByAccount(@RequestParam("account-id") String accountId) {
         return bookingService.getBookingsByAccount(accountId.toUpperCase());
     }
 

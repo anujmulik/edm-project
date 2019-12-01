@@ -1,0 +1,8 @@
+query 2 change to enum
+query 2 bring in name instead of emp_id
+query 3, coalesce all values to zero
+query 6, retrieve state name
+query 7, retrieve usernames
+query 9, bring state name
+query 10, bring in username
+query 11, bring in issue type description

@@ -12,6 +12,7 @@ import Chauffeurs from "./chauffeurs";
 import CSR from "./csr";
 import IssueTypes from "./issue-type";
 import Feedback from "./feedback";
+import Queries from "./queries";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -90,7 +91,7 @@ export default function MainScreen() {
                     <Tab label="CSR" {...a11yProps(3)} />
                     <Tab label="Issue Types" {...a11yProps(4)} />
                     <Tab label="Feedback" {...a11yProps(5)} />
-                    <Tab label="Payments" {...a11yProps(6)} />
+                    <Tab label="Queries" {...a11yProps(6)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
@@ -112,7 +113,7 @@ export default function MainScreen() {
                 <Feedback/>
             </TabPanel>
             <TabPanel value={value} index={6}>
-                Item Seven
+                <Queries/>
             </TabPanel>
         </div>
     );

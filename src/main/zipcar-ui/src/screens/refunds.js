@@ -66,7 +66,6 @@ export default function Refunds () {
         }).then(handleErrors)
             .then(response => fetchData())
             .catch((error) => {
-                console.log('error is', error);
                 setOpen(true);
             });
     }
@@ -88,7 +87,6 @@ export default function Refunds () {
         }).then(handleErrors)
             .then(response => fetchData())
             .catch((error) => {
-                console.log('error is', error);
                 setOpen(true);
             });
     }
@@ -103,7 +101,6 @@ export default function Refunds () {
         }).then(handleErrors)
             .then(response => fetchData())
             .catch((error) => {
-                console.log('error is', error);
                 setOpen(true);
             });
     }

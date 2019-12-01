@@ -6,15 +6,17 @@ public class Query1 {
     private int noOfBookings;
     private int lastYearBookings;
     private int nextMonthsBookings;
+    private int lastMonthsBookings;
     private int annualChange;
     private int monthlyChange;
     private int ytdBookings;
 
-    public Query1(String period, int noOfBookings, int lastYearBookings, int nextMonthsBookings, int annualChange, int monthlyChange, int ytdBookings) {
+    public Query1(String period, int noOfBookings, int lastYearBookings, int nextMonthsBookings, int lastMonthsBookings, int annualChange, int monthlyChange, int ytdBookings) {
         this.period = period;
         this.noOfBookings = noOfBookings;
         this.lastYearBookings = lastYearBookings;
         this.nextMonthsBookings = nextMonthsBookings;
+        this.lastMonthsBookings = lastMonthsBookings;
         this.annualChange = annualChange;
         this.monthlyChange = monthlyChange;
         this.ytdBookings = ytdBookings;
@@ -52,6 +54,14 @@ public class Query1 {
         this.nextMonthsBookings = nextMonthsBookings;
     }
 
+    public int getLastMonthsBookings() {
+        return lastMonthsBookings;
+    }
+
+    public void setLastMonthsBookings(int lastMonthsBookings) {
+        this.lastMonthsBookings = lastMonthsBookings;
+    }
+
     public int getAnnualChange() {
         return annualChange;
     }
@@ -83,6 +93,7 @@ public class Query1 {
                 ", noOfBookings=" + noOfBookings +
                 ", lastYearBookings=" + lastYearBookings +
                 ", nextMonthsBookings=" + nextMonthsBookings +
+                ", lastMonthsBookings=" + lastMonthsBookings +
                 ", annualChange=" + annualChange +
                 ", monthlyChange=" + monthlyChange +
                 ", ytdBookings=" + ytdBookings +

@@ -2,18 +2,16 @@ package com.avengers.zipcar.entity;
 
 public class Query12 {
     private String issueTypeId;
-    private float noOfPeopleWhoCanResolve;
+    private int noOfPeopleWhoCanResolve;
     private String employeeId;
     private String employeeNames;
-    private float resolutionStatus;
     private int numResolved;
 
-    public Query12(String issueTypeId, float noOfPeopleWhoCanResolve, String employeeId, String employeeNames, float resolutionStatus, int numResolved) {
+    public Query12(String issueTypeId, int noOfPeopleWhoCanResolve, String employeeId, String employeeNames, int numResolved) {
         this.issueTypeId = issueTypeId;
         this.noOfPeopleWhoCanResolve = noOfPeopleWhoCanResolve;
         this.employeeId = employeeId;
         this.employeeNames = employeeNames;
-        this.resolutionStatus = resolutionStatus;
         this.numResolved = numResolved;
     }
 
@@ -25,11 +23,11 @@ public class Query12 {
         this.issueTypeId = issueTypeId;
     }
 
-    public float getNoOfPeopleWhoCanResolve() {
+    public int getNoOfPeopleWhoCanResolve() {
         return noOfPeopleWhoCanResolve;
     }
 
-    public void setNoOfPeopleWhoCanResolve(float noOfPeopleWhoCanResolve) {
+    public void setNoOfPeopleWhoCanResolve(int noOfPeopleWhoCanResolve) {
         this.noOfPeopleWhoCanResolve = noOfPeopleWhoCanResolve;
     }
 
@@ -49,14 +47,6 @@ public class Query12 {
         this.employeeNames = employeeNames;
     }
 
-    public float getResolutionStatus() {
-        return resolutionStatus;
-    }
-
-    public void setResolutionStatus(float resolutionStatus) {
-        this.resolutionStatus = resolutionStatus;
-    }
-
     public int getNumResolved() {
         return numResolved;
     }
@@ -72,7 +62,6 @@ public class Query12 {
                 ", noOfPeopleWhoCanResolve=" + noOfPeopleWhoCanResolve +
                 ", employeeId='" + employeeId + '\'' +
                 ", employeeNames='" + employeeNames + '\'' +
-                ", resolutionStatus=" + resolutionStatus +
                 ", numResolved=" + numResolved +
                 '}';
     }

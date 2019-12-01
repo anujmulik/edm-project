@@ -35,13 +35,8 @@ export default function CSR () {
         EditField: props => {
             if (props.columnDef.field === 'ESCALATION_CONTACT') {
                 _.update(props, 'columnDef.lookup', () => getCSRExceptSelected(props.rowData));
-                return (
-                    <MTableEditField {...props}/>
-                );
             }
-            else {
-                return <MTableEditField {...props}/>;
-            }
+            return <MTableEditField {...props}/>;
 
         },
         Cell: props => {
@@ -54,7 +49,6 @@ export default function CSR () {
                 return <MTableCell {...props}/>;
             }
         }
-
     };
 
 
@@ -91,7 +85,6 @@ export default function CSR () {
 
 
     function addCall (data)  {
-        console.log('the data is', data);
             fetch('/api/csr', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -110,7 +103,6 @@ export default function CSR () {
             }).then(handleErrors)
                 .then(response => fetchData())
                 .catch((error) => {
-                    console.log('error is', error);
                     setOpen(true);
                 });
     }
@@ -134,7 +126,6 @@ export default function CSR () {
         }).then(handleErrors)
             .then(response => fetchData())
             .catch((error) => {
-                console.log('error is', error);
                 setOpen(true);
             });
     }
@@ -149,7 +140,6 @@ export default function CSR () {
         }).then(handleErrors)
             .then(response => fetchData())
             .catch((error) => {
-                console.log('error is', error);
                 setOpen(true);
             });
     }
