@@ -17,7 +17,7 @@ public class ChauffeurService {
 
     public List<Chauffeur> getAllChauffeurs() {
         SimpleJdbcCall call =
-                new SimpleJdbcCall(jdbcTemplate).withFunctionName("GET_ALL_CHAUFFEURS");
+                new SimpleJdbcCall(jdbcTemplate).withFunctionName("GET_CHAUFFEURS");
         return call.executeFunction(List.class);
     }
 

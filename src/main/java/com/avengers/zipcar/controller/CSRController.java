@@ -11,15 +11,20 @@ import java.util.List;
 public class CSRController {
 
     @Autowired
-    CSRService csrService;
+    private CSRService csrService;
 
     @RequestMapping("/api/csr")
     public List<CSR> getAllCSRByIssueType(@RequestParam("issue-type") String issueType) {
         return csrService.getCSRByIssueType(issueType.toUpperCase());
     }
 
+    @RequestMapping("/api/csr/all")
+    public List<CSR> getAllCSRByIssueType() {
+        return csrService.getAllCSR();
+    }
+
     @PostMapping("/api/csr")
-    void addNewCSREmployee(@RequestBody CSR csr) {
+    public void addNewCSREmployee(@RequestBody CSR csr) {
         csrService.addCSREmployee(csr);
     }
 

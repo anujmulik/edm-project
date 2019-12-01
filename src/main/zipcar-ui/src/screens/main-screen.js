@@ -7,6 +7,9 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Bookings from './bookings';
+import Refunds from "./refunds";
+import Chauffeurs from "./chauffeurs";
+import CSR from "./csr";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -58,7 +61,6 @@ export default function MainScreen() {
             .then(results => results.json())
             .then(data => {
                 setCars(data);
-                console.log(JSON.stringify(data));
             });
     }, []); // <-- Have to pass in [] here!
 
@@ -81,9 +83,9 @@ export default function MainScreen() {
                     aria-label="scrollable auto tabs example"
                 >
                     <Tab label="Bookings" {...a11yProps(0)} />
-                    <Tab label="Tickets" {...a11yProps(1)} />
+                    <Tab label="Chauffeurs" {...a11yProps(1)} />
                     <Tab label="Refunds" {...a11yProps(2)} />
-                    <Tab label="Escalation" {...a11yProps(3)} />
+                    <Tab label="CSR" {...a11yProps(3)} />
                     <Tab label="Customers" {...a11yProps(4)} />
                     <Tab label="Fines" {...a11yProps(5)} />
                     <Tab label="Payments" {...a11yProps(6)} />
@@ -93,13 +95,13 @@ export default function MainScreen() {
                 <Bookings/>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Item Two
+                <Chauffeurs/>
             </TabPanel>
             <TabPanel value={value} index={2}>
-                Item Three
+                <Refunds/>
             </TabPanel>
             <TabPanel value={value} index={3}>
-                Item Four
+                <CSR/>
             </TabPanel>
             <TabPanel value={value} index={4}>
                 Item Five

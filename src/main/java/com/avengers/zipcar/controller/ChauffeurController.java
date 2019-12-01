@@ -11,15 +11,15 @@ import java.util.List;
 public class ChauffeurController {
 
     @Autowired
-    ChauffeurService chauffeurService;
+    private ChauffeurService chauffeurService;
 
-    @RequestMapping("/api/chauffeur")
+    @RequestMapping("/api/chauffeur/all")
     public List<Chauffeur> getAllChauffeur() {
         return chauffeurService.getAllChauffeurs();
     }
 
     @PostMapping("/api/chauffeur")
-    void addNewChauffeur(@RequestBody Chauffeur chauffeur) {
+    public void addNewChauffeur(@RequestBody Chauffeur chauffeur) {
         chauffeurService.addChauffeur(chauffeur);
     }
 

@@ -24,7 +24,7 @@ public class RefundController {
     }
 
     @PostMapping("/api/refunds")
-    void addNewRefund(@RequestBody Refund refund) {
+    public void addNewRefund(@RequestBody Refund refund) {
         refundService.addRefund(refund);
     }
 

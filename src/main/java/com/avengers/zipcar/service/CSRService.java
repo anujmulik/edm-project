@@ -24,6 +24,12 @@ public class CSRService {
         return call.executeFunction(List.class, paramMap);
     }
 
+    public List<CSR> getAllCSR() {
+        SimpleJdbcCall call =
+                new SimpleJdbcCall(jdbcTemplate).withFunctionName("GET_ALL_CSR");
+        return call.executeFunction(List.class);
+    }
+
     public void addCSREmployee(CSR csr) {
         SimpleJdbcCall call =
                 new SimpleJdbcCall(jdbcTemplate).withProcedureName("INSERT_INTO_CSR");
