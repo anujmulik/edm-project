@@ -30,22 +30,22 @@ export default function NewBookingForm () {
     }));
 
     const carColumns = [
-            { title: 'Name', field: 'name' },
-            { title: 'Surname', field: 'surname' },
-            { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
+            { title: 'Name', field: 'NAME' },
+            { title: 'Surname', field: 'SURNAME' },
+            { title: 'Birth Year', field: 'BIRTH_YEAR', type: 'numeric' },
             {
                 title: 'Birth Place',
-                field: 'birthCity',
+                field: 'BIRTH_CITY',
                 lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
             },
         ];
     const carData = [
-            { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
+            { "NAME": "Mehmet", "SURNAME": "Baran", "BIRTH_YEAR": 1987, "BIRTH_CITY": 63 },
             {
-                name: 'Zerya Betül',
-                surname: 'Baran',
-                birthYear: 2017,
-                birthCity: 34,
+                "NAME": "Zerya Betül",
+                "SURNAME": "Baran",
+                "BIRTH_YEAR": 2017,
+                "BIRTH_CITY": 34,
             },
         ];
 

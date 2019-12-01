@@ -2,50 +2,46 @@ import React, {useEffect, useState} from 'react';
 import TableWithSearch from "../components/table-with-search";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from "@material-ui/icons/Close";
 
 
-const bookingsColumns = [
-    { title: 'Account ID', field: 'ACCOUNT_ID'},
-    { title: 'Booking ID', field: 'BOOKING_ID', editable: 'never' },
-    { title: 'Chauffeur Pickup', field: 'CHAUFFER_PICKUP'},
-    { title: 'Pickup Location Latitude', field: 'PICKUP_LOC_LAT'},
-    { title: 'Pickup Location Longitude', field: 'PICKUP_LOC_LONG'},
-    { title: 'Drop off Location Latitude', field: 'DROP_LOC_LAT' },
-    { title: 'Drop off Location Longitude', field: 'DROP_LOC_LONG'},
-    { title: 'Booking Time', field: 'BOOKING_TIME'},
-    { title: 'Status', field: 'STATUS'},
-    { title: 'Start Time', field: 'START_TIME' },
-    { title: 'End Time', field: 'END_TIME'},
-    { title: 'Final Fuel', field: 'FINAL_FUEL'},
-    { title: 'Total Distance Travelled', field: 'TOTAL_DISTANCE_TRAVELLED'},
-    { title: 'VIN', field: 'VIN'},
-    { title: 'Promotion Code', field: 'PROMOCODE'},
-    { title: 'Pickup Station ID', field: 'PICKUP_STATION_ID'},
-    { title: 'Dropoff Station ID', field: 'DROPOFF_STATION_ID' },
-    { title: 'Total Fines', field: 'TOTAL_FINES'},
-    { title: 'Actual End Time', field: 'ACTUAL_END_TIME'},
-    { title: 'Base Booking Amount', field: 'BASE_BOOKING_AMOUNT'}
-];
-
-export default function Bookings () {
-
-    const [bookings, setBookings] = useState(null);
-
+export default function Chauffeurs () {
+    const [chauffeurs, setChauffeurs] = useState(null);
+    const [states, setStates] = useState(null);
 
     const fetchData = () => {
-        fetch('/api/bookings/all')
+        fetch('/api/chauffeur/all')
             .then(results => results.json())
             .then(data => {
-                setBookings(data);
+                setChauffeurs(data);
+            });
+
+        fetch('/api/states/all')
+            .then(results => results.json())
+            .then(data => {
+                setStates(data);
             });
     };
+
+    const getStates = () => {
+        let final = {};
+        states.map(state => (final[state.STATE_CODE]=`${state.STATE_NAME}`));
+        return final;
+    };
+
+    const chauffeurColumns = () => [
+        { title: 'Employee ID', field: 'EMPLOYEE_ID', editable: 'never' },
+        { title: 'First Name', field: 'FIRST_NAME' },
+        { title: 'Last Name', field: 'LAST_NAME',  },
+        { title: 'Expiry Date', field: 'EXPIRY_DATE', type: 'date' },
+        { title: 'State', field: 'STATE', lookup: getStates() },
+        { title: 'DL Number', field: 'DL_NUMBER'}
+    ];
+
 
     useEffect(() => {
         fetchData();
     }, []);
-
-
 
     const [open, setOpen] = React.useState(false);
 
@@ -64,12 +60,17 @@ export default function Bookings () {
         return response;
     }
 
-
     function addCall (data)  {
-        fetch('/api/bookings', {
+        fetch('/api/chauffeur', {
             method: 'POST',
             body: JSON.stringify({
-
+                employeeId: null,
+                firstName: data.FIRST_NAME,
+                lastName: data.LAST_NAME,
+                type: 'CH',
+                dlNumber: data.DL_NUMBER,
+                expiryDate: data.EXPIRY_DATE,
+                issuingState: data.STATE
             }),
             headers: {
                 'Accept': 'application/json, text/plain',
@@ -84,10 +85,15 @@ export default function Bookings () {
 
 
     function updateCall (data)  {
-        fetch(`/api/bookings/${data.BOOKING_ID}`, {
+        fetch(`/api/chauffeur/${data.EMPLOYEE_ID}`, {
             method: 'PUT',
             body: JSON.stringify({
-
+                firstName: data.FIRST_NAME,
+                lastName: data.LAST_NAME,
+                type: 'CH',
+                dlNumber: data.DL_NUMBER,
+                expiryDate: data.EXPIRY_DATE,
+                issuingState: data.STATE
             }),
             headers: {
                 'Accept': 'application/json, text/plain',
@@ -100,19 +106,30 @@ export default function Bookings () {
             });
     }
 
+    function deleteCall (data)  {
+        fetch(`/api/chauffeur/${data.EMPLOYEE_ID}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-Type': 'application/json;charset=UTF-8'
+            }
+        }).then(handleErrors)
+            .then(response => fetchData())
+            .catch((error) => {
+                setOpen(true);
+            });
+    }
+
+
     return(
         <div>
-            { !bookings ? 'Loading...' : <TableWithSearch
-                title ={'Bookings'}
-                data={bookings}
-                columns={bookingsColumns}
+            { !chauffeurs || !states ? 'Loading...' : <TableWithSearch
+                title ={'Chauffeurs'}
+                data={chauffeurs}
+                columns={chauffeurColumns()}
                 addCall={addCall}
-                updateCall={updateCall}
-                deletable={false}
-                //components={components}
-            />
-
-            }
+            updateCall={updateCall}
+            deleteCall={deleteCall}/> }
 
             {open && <Snackbar
                 anchorOrigin={{

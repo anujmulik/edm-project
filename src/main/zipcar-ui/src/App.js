@@ -33,7 +33,7 @@ class App extends React.Component {
         .then(res => {
           this.setState({
               employees: res.data
-          }, () => console.log(this.state.employees));
+          });
         })
   }
 

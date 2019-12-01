@@ -23,4 +23,47 @@ public class CSRService {
                 .addValue("issueType", type);
         return call.executeFunction(List.class, paramMap);
     }
+
+    public List<CSR> getAllCSR() {
+        SimpleJdbcCall call =
+                new SimpleJdbcCall(jdbcTemplate).withFunctionName("GET_ALL_CSR");
+        return call.executeFunction(List.class);
+    }
+
+    public void addCSREmployee(CSR csr) {
+        SimpleJdbcCall call =
+                new SimpleJdbcCall(jdbcTemplate).withProcedureName("INSERT_INTO_CSR");
+
+        SqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("first_name_ins", csr.getFirstName())
+                .addValue("last_name_ins", csr.getLastName())
+                .addValue("shift_details_ins", csr.getShiftDetails())
+                .addValue("email_id_ins", csr.getEmailId())
+                .addValue("escalation_contact_ins", csr.getEscalationContact());
+         call.execute(paramMap);
+    }
+
+    public void deleteCSREmployee(String employeeId) {
+        SimpleJdbcCall call =
+                new SimpleJdbcCall(jdbcTemplate).withProcedureName("DELETE_CSR_BY_EMPID");
+
+        SqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("employee_id_ins", employeeId);
+        call.execute(paramMap);
+    }
+
+    public void updateCSREmployee (CSR csr, String employeeId) {
+        SimpleJdbcCall call =
+                new SimpleJdbcCall(jdbcTemplate).withProcedureName("UPDATE_CSR_EMPLOYEE");
+
+        SqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("employee_id_ins", employeeId)
+                .addValue("first_name_ins", csr.getFirstName())
+                .addValue("last_name_ins", csr.getLastName())
+                .addValue("shift_details_ins", csr.getShiftDetails())
+                .addValue("email_id_ins", csr.getEmailId())
+                .addValue("escalation_contact_ins", csr.getEscalationContact());
+        call.execute(paramMap);
+    }
+
 }
