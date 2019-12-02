@@ -6,33 +6,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import {MTableAction, MTableEditField} from "material-table";
 import FormDialog from "../components/form-dialog";
 import CarSelection from "../components/car-selection";
+import _ from "lodash";
 
-
-const bookingsColumns = [
-    {title: 'Account ID', field: 'ACCOUNT_ID', editable: 'never'},
-    {title: 'Booking ID', field: 'BOOKING_ID', editable: 'never'},
-    {title: 'Chauffeur Pickup', field: 'CHAUFFER_PICKUP', editable: 'onAdd', lookup: {
-        "Y": "Yes",
-            "N": "No"
-        }},
-    {title: 'Pickup Location Latitude', field: 'PICKUP_LOC_LAT', editable: 'onAdd', type: 'numeric'},
-    {title: 'Pickup Location Longitude', field: 'PICKUP_LOC_LONG', editable: 'onAdd', type: 'numeric'},
-    {title: 'Drop off Location Latitude', field: 'DROP_LOC_LAT', editable: 'onAdd', type: 'numeric'},
-    {title: 'Drop off Location Longitude', field: 'DROP_LOC_LONG', editable: 'onAdd', type: 'numeric'},
-    {title: 'Booking Time', field: 'BOOKING_TIME', editable: 'onAdd', type: 'datetime'},
-    {title: 'Status', field: 'STATUS', editable: 'never'},
-    {title: 'Start Time', field: 'START_TIME', editable: 'onAdd', type: 'datetime'},
-    {title: 'End Time', field: 'END_TIME', editable: 'onAdd', type: 'datetime'},
-    {title: 'Final Fuel', field: 'FINAL_FUEL', type: 'numeric', editable: 'onUpdate'},
-    {title: 'Total Distance Travelled', field: 'TOTAL_DISTANCE_TRAVELLED', type: 'numeric', editable: 'onUpdate'},
-    {title: 'VIN', field: 'VIN', editable: 'onAdd'},
-    {title: 'Promotion Code', field: 'PROMOCODE', editable: 'onAdd'},
-    {title: 'Pickup Station ID', field: 'PICKUP_STATION_ID', editable: 'onAdd'},
-    {title: 'Dropoff Station ID', field: 'DROPOFF_STATION_ID', editable: 'onAdd'},
-    {title: 'Total Fines', field: 'TOTAL_FINES', editable: 'never'},
-    {title: 'Actual End Time', field: 'ACTUAL_END_TIME', editable: 'onUpdate', type: 'datetime'},
-    {title: 'Base Booking Amount', field: 'BASE_BOOKING_AMOUNT', editable: 'never'}
-];
 
 export default function Bookings() {
 
@@ -40,6 +15,15 @@ export default function Bookings() {
     const [vin, setVin] = useState(null);
     const [startTime, setStartTime] = useState();
     const [endTime, setEndTime] = useState();
+    const [usernames, setUsernames] = useState();
+
+    const getUsernames = () => {
+        let final = {};
+        usernames.map(username => (final[username.accountId]=`${username.username}`));
+        return final;
+    };
+
+
 
     const actions = [
         {
@@ -55,7 +39,6 @@ export default function Bookings() {
             icon: 'check_circle',
             tooltip: 'Finish Booking',
             onClick: (event, rowData) => {
-                console.log('row data is ', rowData);
                 endBooking(rowData.BOOKING_ID)
             }
         },
@@ -67,6 +50,13 @@ export default function Bookings() {
             .then(results => results.json())
             .then(data => {
                 setBookings(data);
+            });
+
+        fetch('/api/accounts/all')
+            .then(results => results.json())
+            .then(data => {
+                const names = data.map(user => ({username :user.USERNAME, accountId: user.ACCOUNT_ID}));
+                setUsernames(names);
             });
     };
 
@@ -92,6 +82,32 @@ export default function Bookings() {
         return response;
     }
 
+    const bookingsColumns = () => [
+        {title: 'Account ID', field: 'ACCOUNT_ID', editable: 'onAdd' },
+        {title: 'Booking ID', field: 'BOOKING_ID', editable: 'never'},
+        {title: 'Chauffeur Pickup', field: 'CHAUFFER_PICKUP', editable: 'onAdd', lookup: {
+                "Y": "Yes",
+                "N": "No"
+            }},
+        {title: 'Pickup Location Latitude', field: 'PICKUP_LOC_LAT', editable: 'onAdd', type: 'numeric'},
+        {title: 'Pickup Location Longitude', field: 'PICKUP_LOC_LONG', editable: 'onAdd', type: 'numeric'},
+        {title: 'Drop off Location Latitude', field: 'DROP_LOC_LAT', editable: 'onAdd', type: 'numeric'},
+        {title: 'Drop off Location Longitude', field: 'DROP_LOC_LONG', editable: 'onAdd', type: 'numeric'},
+        {title: 'Booking Time', field: 'BOOKING_TIME', editable: 'onAdd', type: 'datetime'},
+        {title: 'Status', field: 'STATUS', editable: 'never'},
+        {title: 'Start Time', field: 'START_TIME', editable: 'onAdd', type: 'datetime'},
+        {title: 'End Time', field: 'END_TIME', editable: 'onAdd', type: 'datetime'},
+        {title: 'Final Fuel', field: 'FINAL_FUEL', type: 'numeric', editable: 'onUpdate'},
+        {title: 'Total Distance Travelled', field: 'TOTAL_DISTANCE_TRAVELLED', type: 'numeric', editable: 'onUpdate'},
+        {title: 'VIN', field: 'VIN', editable: 'onAdd'},
+        {title: 'Promotion Code', field: 'PROMOCODE', editable: 'onAdd'},
+        {title: 'Pickup Station ID', field: 'PICKUP_STATION_ID', editable: 'onAdd'},
+        {title: 'Dropoff Station ID', field: 'DROPOFF_STATION_ID', editable: 'onAdd'},
+        {title: 'Total Fines', field: 'TOTAL_FINES', editable: 'never'},
+        {title: 'Actual End Time', field: 'ACTUAL_END_TIME', editable: 'onUpdate', type: 'datetime'},
+        {title: 'Base Booking Amount', field: 'BASE_BOOKING_AMOUNT', editable: 'never'}
+    ];
+
     const components = {
         EditField: props => {
             if (props.columnDef.field === 'VIN') {
@@ -109,6 +125,11 @@ export default function Bookings() {
                         setVin={setVin}
                     /></FormDialog>
             }
+
+            if (props.columnDef.field === 'ACCOUNT_ID')
+                _.update(props, 'columnDef.lookup', () => getUsernames());
+
+
             return <MTableEditField {...props}/>;
 
         },
@@ -231,10 +252,10 @@ export default function Bookings() {
 
     return (
         <div>
-            {!bookings ? 'Loading...' : <TableWithSearch
+            {!bookings || !usernames ? 'Loading...' : <TableWithSearch
                 title={'Bookings'}
                 data={bookings}
-                columns={bookingsColumns}
+                columns={bookingsColumns()}
                 addCall={addCall}
                 deletable={false}
                 components={components}

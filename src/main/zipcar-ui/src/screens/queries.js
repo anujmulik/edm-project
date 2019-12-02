@@ -142,7 +142,6 @@ export default function Queries() {
         {title: 'Segment', field: 'SEGMENT'},
         {title: 'Total Distance Travelled', field: 'TOTAL_DISTANCE_TRAVELLED', type: 'numeric'},
         {title: 'Total Fines', field: 'TOTAL_FINES', type: 'numeric'},
-        {title: 'Number of Segments Booked', field: 'NUM_SEGMENT_BOOKED', type: 'numeric'},
         {title: 'Customer Type', field: 'CUSTOMER_TYPE'},
     ];
 

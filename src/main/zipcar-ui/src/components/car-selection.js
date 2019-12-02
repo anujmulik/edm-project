@@ -24,7 +24,6 @@ export default function CarSelection({ setVin, setStartTime, setEndTime, startTi
     };
 
     const fetchCost = () => {
-        console.log(selectedRow);
         fetch(`/api/bookings/cost?vin=${selectedRow.VIN}&start-time=${startTime}&end-time=${endTime}`)
             .then(handleErrors)
             .then(results => results.json())
@@ -88,7 +87,6 @@ export default function CarSelection({ setVin, setStartTime, setEndTime, startTi
                                                     + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes()
                                                     + ":" + date.getSeconds();
 
-                                                console.log('the start time is', startTime);
                                                 setStartTime(startTime);
                                             }}/>
                         </div>
@@ -99,7 +97,6 @@ export default function CarSelection({ setVin, setStartTime, setEndTime, startTi
                                                     + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes()
                                                     + ":" + date.getSeconds();
 
-                                                console.log('the end time is', endTime);
                                                 setEndTime(endTime);
                                             }}/>
                         </div>
