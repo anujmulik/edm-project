@@ -52,7 +52,7 @@ export default function CarStationSelection({ onChange, setOpenDialog}) {
     return (
         <div>
             {!carStations ? 'Loading...' :
-                <div style={{display: 'flex', flexDirection: 'column', 'align-items': 'flex-start'}}>
+                <div style={{display: 'flex', flexDirection: 'column', 'align-items': 'flex-start', marginLeft: 20, marginTop: 20 }}>
                     <TableWithSearch
                         title={'Car Station List'}
                         data={carStations}
@@ -62,6 +62,7 @@ export default function CarStationSelection({ onChange, setOpenDialog}) {
                         pageSize={5}
                     />
 
+                    <div style={{display: 'flex', flexDirection: 'row', margin: 20}}>
 
                         <div style={{marginRight: '20px'}}>
                             <Button variant="contained" color="primary" onClick={() => {
@@ -76,6 +77,7 @@ export default function CarStationSelection({ onChange, setOpenDialog}) {
                         onClick={()=>setOpenDialog(false)}>
                             Cancel
                         </Button>
+                    </div>
                 </div>
 
 

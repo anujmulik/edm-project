@@ -80,7 +80,7 @@ export default function MainScreen() {
                     <Tab label="Issue Types" {...a11yProps(4)} />
                     <Tab label="Feedback" {...a11yProps(5)} />
                     <Tab label="Queries" {...a11yProps(6)} />
-                    <Tab label="Car Selection" {...a11yProps(7)} />
+                    <Tab label="Cost Calculator" {...a11yProps(7)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
@@ -106,7 +106,7 @@ export default function MainScreen() {
                 <Queries/>
             </TabPanel>
             <TabPanel value={value} index={7}>
-                <CarSelection/>
+                <CarSelection isCalculator={true}/>
             </TabPanel>
         </div>
     );

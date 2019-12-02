@@ -5,7 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
 
-export default function PromotionsSelection({ onChange, setOpenDialog}) {
+export default function PromotionsSelection({onChange, setOpenDialog}) {
     const [promotions, setPromotions] = useState(null);
     const [selectedRow, onSelect] = useState(null);
 
@@ -53,7 +53,7 @@ export default function PromotionsSelection({ onChange, setOpenDialog}) {
     return (
         <div>
             {!promotions ? 'Loading...' :
-                <div style={{display: 'flex', flexDirection: 'column', 'align-items': 'flex-start'}}>
+                <div style={{display: 'flex', flexDirection: 'column', 'align-items': 'flex-start', marginLeft: 20, marginTop: 20}}>
                     <TableWithSearch
                         title={'Promotions List'}
                         data={promotions}
@@ -64,19 +64,21 @@ export default function PromotionsSelection({ onChange, setOpenDialog}) {
                     />
 
 
-                    <div style={{marginRight: '20px'}}>
-                        <Button variant="contained" color="primary" onClick={() => {
-                            onChange(selectedRow.PROMOCODE);
-                            setOpenDialog(false);
-                        }}
-                                disabled={!selectedRow}>
-                            Select Promotion
+                    <div style={{display: 'flex', flexDirection: 'row', margin: 20}}>
+                        <div style={{marginRight: '20px'}}>
+                            <Button variant="contained" color="primary" onClick={() => {
+                                onChange(selectedRow.PROMOCODE);
+                                setOpenDialog(false);
+                            }}
+                                    disabled={!selectedRow}>
+                                Select Promotion
+                            </Button>
+                        </div>
+                        <Button variant="contained" color="secondary"
+                                onClick={() => setOpenDialog(false)}>
+                            Cancel
                         </Button>
                     </div>
-                    <Button variant="contained" color="secondary"
-                    onClick={()=>setOpenDialog(false)}>
-                        Cancel
-                    </Button>
                 </div>
 
 
