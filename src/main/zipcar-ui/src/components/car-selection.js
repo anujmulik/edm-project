@@ -6,12 +6,10 @@ import CloseIcon from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
 import DateTimePicker from "./datetimepicker";
 
-export default function CarSelection ({onApprove, onCancel}) {
+export default function CarSelection({ setVin, setStartTime, setEndTime, startTime, endTime}) {
     const [cars, setCars] = useState(null);
     const [selectedRow, onSelect] = useState(null);
     const [tripCost, setTripCost] = useState(0);
-    const [startTime, setStartTime] = useState(new Date().getTime());
-    const [endTime, setEndTime] = useState(new Date().getTime());
 
     const fetchData = () => {
         fetch('/api/cars/all')
@@ -20,8 +18,8 @@ export default function CarSelection ({onApprove, onCancel}) {
             .then(data => {
                 setCars(data);
             }).catch((error) => {
-                setOpen(true);
-            });
+            setOpen(true);
+        });
 
     };
 
@@ -38,15 +36,15 @@ export default function CarSelection ({onApprove, onCancel}) {
     };
 
     const carColumns = [
-        { title: 'VIN', field: 'VIN', editable: 'never'},
-        { title: 'Number of Seats', field: 'NO_OF_SEATS', type: 'numeric'},
-        { title: 'Year', field: 'YEAR', type: 'numeric'},
-        { title: 'Type', field: 'TYPE'},
-        { title: 'Model', field: 'MODEL'},
-        { title: 'Segment', field: 'SEGMENT'},
-        { title: 'Color', field: 'COLOR'},
-        { title: 'Make', field: 'MAKE'},
-      ];
+        {title: 'VIN', field: 'VIN', editable: 'never'},
+        {title: 'Number of Seats', field: 'NO_OF_SEATS', type: 'numeric'},
+        {title: 'Year', field: 'YEAR', type: 'numeric'},
+        {title: 'Type', field: 'TYPE'},
+        {title: 'Model', field: 'MODEL'},
+        {title: 'Segment', field: 'SEGMENT'},
+        {title: 'Color', field: 'COLOR'},
+        {title: 'Make', field: 'MAKE'},
+    ];
 
     useEffect(() => {
         fetchData();
@@ -69,43 +67,65 @@ export default function CarSelection ({onApprove, onCancel}) {
         return response;
     }
 
-    return(
+    return (
         <div>
-            { !cars ? 'Loading...' :
-                <div style={{display: 'flex', flexDirection: 'column', 'align-items':'flex-start'}}>
-                <TableWithSearch
-                    title ={'Select Car'}
-                    data={cars}
-                    columns={carColumns}
-                    onSelect={onSelect}
-                    editable={false}
-                    pageSize={5}
-                />
-                <div style={{display: 'flex', flexDirection: 'row', margin: '20px 0 20px 20px'}}>
-                    <div style={{marginRight: '20px'}}>
-                    <DateTimePicker label={'Select Start Time'} selectedDate={startTime} handleDateChange={(date)=> setStartTime(date.getTime())}/>
-                    </div>
-                    <div style={{marginRight: '20px'}}>
-                    <DateTimePicker label={'Select End Time'} selectedDate={endTime} handleDateChange={(date)=> setEndTime(date.getTime())}/>
-                    </div>
-                </div>
-                    <div style={{ marginLeft: '20px'}}> Trip Cost: ${tripCost} </div>
-                <div style={{display: 'flex', flexDirection: 'row', margin: '20px 0 20px 20px'}}>
+            {!cars ? 'Loading...' :
+                <div style={{display: 'flex', flexDirection: 'column', 'align-items': 'flex-start'}}>
+                    <TableWithSearch
+                        title={'Car List'}
+                        data={cars}
+                        columns={carColumns}
+                        onSelect={onSelect}
+                        editable={false}
+                        pageSize={5}
+                    />
+                    <div style={{display: 'flex', flexDirection: 'row', margin: '20px 0 20px 20px'}}>
+                        <div style={{marginRight: '20px'}}>
+                            <DateTimePicker label={'Select Start Time'} selectedDate={startTime}
+                                            handleDateChange={(date) =>
+                                            {
+                                                const startTime =  date.getFullYear() + "-" + (date.getMonth() + 1)
+                                                    + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes()
+                                                    + ":" + date.getSeconds();
 
-                    <div style={{marginRight: '20px'}}>
-                        <Button variant="contained" onClick={()=>fetchCost()} disabled={!selectedRow}>
-                            Fetch Cost
+                                                console.log('the start time is', startTime);
+                                                setStartTime(startTime);
+                                            }}/>
+                        </div>
+                        <div style={{marginRight: '20px'}}>
+                            <DateTimePicker label={'Select End Time'} selectedDate={endTime}
+                                            handleDateChange={(date) => {
+                                                const endTime =  date.getFullYear() + "-" + (date.getMonth() + 1)
+                                                    + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes()
+                                                    + ":" + date.getSeconds();
+
+                                                console.log('the end time is', endTime);
+                                                setEndTime(endTime);
+                                            }}/>
+                        </div>
+                    </div>
+                    <div style={{marginLeft: '20px'}}> Trip Cost: ${tripCost} </div>
+                    <div style={{display: 'flex', flexDirection: 'row', margin: '20px 0 20px 20px'}}>
+
+                        <div style={{marginRight: '20px'}}>
+                            <Button variant="contained" onClick={() => fetchCost()} disabled={!selectedRow}>
+                                Fetch Cost
+                            </Button>
+                        </div>
+                        <div style={{marginRight: '20px'}}>
+                            <Button variant="contained" color="primary" onClick={() => setVin(selectedRow.VIN)}
+                                    disabled={!selectedRow}>
+                                Confirm
+                            </Button>
+                        </div>
+                        <Button variant="contained" color="secondary" onClick={() => {
+                            setVin();
+                            setStartTime(null);
+                            setEndTime(null);
+                        }}>
+                            Cancel
                         </Button>
                     </div>
-                    <div style={{marginRight: '20px'}}>
-                    <Button variant="contained" color="primary" onClick={()=>onApprove(selectedRow.VIN)} disabled={!selectedRow}>
-                        Confirm
-                    </Button>
-                    </div>
-                    <Button variant="contained" color="secondary" onClick={()=>onCancel()}>
-                        Cancel
-                    </Button>
-                </div>
 
 
                 </div>
@@ -133,7 +153,7 @@ export default function CarSelection ({onApprove, onCancel}) {
                         color="inherit"
                         onClick={handleClose}
                     >
-                        <CloseIcon />
+                        <CloseIcon/>
                     </IconButton>,
                 ]}
             />}
