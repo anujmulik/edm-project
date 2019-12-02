@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import MaterialTable from 'material-table';
 
-export default function TableWithSearch({columns, data, title, addCall, updateCall, deleteCall, components, onSelect, pageSize=20, editable=true, deletable=true }) {
+export default function TableWithSearch({columns, data, title, addCall, actions=undefined,
+                                            updateCall = ()=>{}, deleteCall, components,
+                                            onSelect = ()=> {}, pageSize=20, editable=true,
+                                            deletable=true }) {
 
 
     const [selectedRow, setSelectedRow] = useState(null);
@@ -51,6 +54,7 @@ export default function TableWithSearch({columns, data, title, addCall, updateCa
 
             } : undefined}
             components={components}
+            actions={actions}
         />
     );
 }

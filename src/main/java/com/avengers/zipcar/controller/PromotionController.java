@@ -14,7 +14,7 @@ public class PromotionController {
     @Autowired
     PromotionService promotionService;
 
-    @RequestMapping("/api/promotion/all")
+    @RequestMapping("/api/promotions/all")
     public List<Promotion> getPromotions() {
         return promotionService.getAllPromotionServices();
     }

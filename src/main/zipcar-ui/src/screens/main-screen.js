@@ -73,18 +73,19 @@ export default function MainScreen() {
                     scrollButtons="auto"
                     aria-label="scrollable auto tabs example"
                 >
-                    <Tab label="Car Selection" {...a11yProps(0)} />
+                    <Tab label="Bookings" {...a11yProps(0)} />
                     <Tab label="Chauffeurs" {...a11yProps(1)} />
                     <Tab label="Refunds" {...a11yProps(2)} />
                     <Tab label="CSR" {...a11yProps(3)} />
                     <Tab label="Issue Types" {...a11yProps(4)} />
                     <Tab label="Feedback" {...a11yProps(5)} />
                     <Tab label="Queries" {...a11yProps(6)} />
-                    <Tab label="Bookings" {...a11yProps(7)} />
+                    <Tab label="Car Selection" {...a11yProps(7)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                <CarSelection/>
+                <Bookings/>
+
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <Chauffeurs/>
@@ -105,7 +106,7 @@ export default function MainScreen() {
                 <Queries/>
             </TabPanel>
             <TabPanel value={value} index={7}>
-                <Bookings/>
+                <CarSelection/>
             </TabPanel>
         </div>
     );
