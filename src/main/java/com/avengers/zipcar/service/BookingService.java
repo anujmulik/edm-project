@@ -74,6 +74,7 @@ public class BookingService {
                 .addValue("PICKUP_LOC_LAT_INS", booking.getPickupLocationLat())
                 .addValue("PICKUP_LOC_LONG_INS", booking.getPickupLocationLong())
                 .addValue("BOOKING_TIME_INS", booking.getBookingTime())
+                .addValue("START_TIME_INS", booking.getStartTime())
                 .addValue("END_TIME_INS", booking.getEndTime())
                 .addValue("ACCOUNT_ID_INS", booking.getAccountId())
                 .addValue("VIN_INS", booking.getVin())

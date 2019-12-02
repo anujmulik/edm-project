@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -23,8 +23,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FullScreenDialog({children, title, open, setOpen}) {
+export default function FullScreenDialog({children, title}) {
     const classes = useStyles();
+    const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -33,6 +34,11 @@ export default function FullScreenDialog({children, title, open, setOpen}) {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const childrenWithProps = React.Children.map(children, child =>
+        React.cloneElement(child, { setOpenDialog: setOpen })
+    );
+
     return (
         <div>
             <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -49,7 +55,7 @@ export default function FullScreenDialog({children, title, open, setOpen}) {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                {children}
+                {childrenWithProps}
             </Dialog>
         </div>
     );

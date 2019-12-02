@@ -22,14 +22,10 @@ export default function CarStationSelection({ onChange, setOpenDialog}) {
     };
 
     const carStationsColumns = [
-        {title: 'VIN', field: 'VIN', editable: 'never'},
-        {title: 'Number of Seats', field: 'NO_OF_SEATS', type: 'numeric'},
-        {title: 'Year', field: 'YEAR', type: 'numeric'},
-        {title: 'Type', field: 'TYPE'},
-        {title: 'Model', field: 'MODEL'},
-        {title: 'Segment', field: 'SEGMENT'},
-        {title: 'Color', field: 'COLOR'},
-        {title: 'Make', field: 'MAKE'},
+        {title: 'Station ID', field: 'STATION_ID'},
+        {title: 'Street Address', field: 'STREET_ADDRESS'},
+        {title: 'Region ID', field: 'REGION_ID'},
+        {title: 'Zipcode', field: 'ZIPCODE'}
     ];
 
     useEffect(() => {
@@ -69,14 +65,15 @@ export default function CarStationSelection({ onChange, setOpenDialog}) {
 
                         <div style={{marginRight: '20px'}}>
                             <Button variant="contained" color="primary" onClick={() => {
-                                onChange(selectedRow.CAR_STATION_ID);
+                                onChange(selectedRow.STATION_ID);
                                 setOpenDialog(false);
                             }}
                                     disabled={!selectedRow}>
                                 Select Car Station
                             </Button>
                         </div>
-                        <Button variant="contained" color="secondary" onClick={()=>setOpenDialog(false)}>
+                        <Button variant="contained" color="secondary"
+                        onClick={()=>setOpenDialog(false)}>
                             Cancel
                         </Button>
                 </div>

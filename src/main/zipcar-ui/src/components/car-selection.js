@@ -61,7 +61,7 @@ export default function CarSelection({ onChange, setOpenDialog}) {
         fetchData();
     }, []);
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -104,7 +104,8 @@ export default function CarSelection({ onChange, setOpenDialog}) {
                     <div style={{display: 'flex', flexDirection: 'row', margin: '20px 0 20px 20px'}}>
 
                         <div style={{marginRight: '20px'}}>
-                            <Button variant="contained" onClick={() => fetchCost()} disabled={!selectedRow}>
+                            <Button variant="contained" onClick={() => fetchCost()}
+                                    disabled={!selectedRow || !endTime || !startTime}>
                                 Fetch Cost
                             </Button>
                         </div>
@@ -117,7 +118,7 @@ export default function CarSelection({ onChange, setOpenDialog}) {
                                 Confirm
                             </Button>
                         </div>
-                        <Button variant="contained" color="secondary" onClick={()=>setOpenDialog(false)}>
+                        <Button variant="contained" color="secondary"  onClick={()=>setOpenDialog(false)}>
                             Cancel
                         </Button>
                     </div>

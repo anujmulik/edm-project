@@ -22,14 +22,11 @@ export default function PromotionsSelection({ onChange, setOpenDialog}) {
     };
 
     const promotionsColumns = [
-        {title: 'VIN', field: 'VIN', editable: 'never'},
-        {title: 'Number of Seats', field: 'NO_OF_SEATS', type: 'numeric'},
-        {title: 'Year', field: 'YEAR', type: 'numeric'},
-        {title: 'Type', field: 'TYPE'},
-        {title: 'Model', field: 'MODEL'},
-        {title: 'Segment', field: 'SEGMENT'},
-        {title: 'Color', field: 'COLOR'},
-        {title: 'Make', field: 'MAKE'},
+        {title: 'VIN', field: 'PROMOCODE'},
+        {title: 'Number of Seats', field: 'DISCOUNT_VALUE', type: 'numeric'},
+        {title: 'Year', field: 'EFFECTIVE_FROM', type: 'date'},
+        {title: 'Type', field: 'EXPIRY_DATE', type: 'date'},
+        {title: 'Model', field: 'DISCOUNT_TYPE'}
     ];
 
     useEffect(() => {
@@ -58,7 +55,7 @@ export default function PromotionsSelection({ onChange, setOpenDialog}) {
             {!promotions ? 'Loading...' :
                 <div style={{display: 'flex', flexDirection: 'column', 'align-items': 'flex-start'}}>
                     <TableWithSearch
-                        title={'Car Station List'}
+                        title={'Promotions List'}
                         data={promotions}
                         columns={promotionsColumns}
                         onSelect={onSelect}
@@ -69,14 +66,15 @@ export default function PromotionsSelection({ onChange, setOpenDialog}) {
 
                     <div style={{marginRight: '20px'}}>
                         <Button variant="contained" color="primary" onClick={() => {
-                            onChange(selectedRow.PROMOTION_ID);
+                            onChange(selectedRow.PROMOCODE);
                             setOpenDialog(false);
                         }}
                                 disabled={!selectedRow}>
                             Select Promotion
                         </Button>
                     </div>
-                    <Button variant="contained" color="secondary" onClick={()=>setOpenDialog(false)}>
+                    <Button variant="contained" color="secondary"
+                    onClick={()=>setOpenDialog(false)}>
                         Cancel
                     </Button>
                 </div>

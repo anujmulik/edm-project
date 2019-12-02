@@ -11,11 +11,12 @@ import PromotionsSelection from "../components/promocode-selection";
 import CarStationSelection from "../components/car-station-selection";
 
 
+const convertDateToTimestamp = (date) => {return date;};
+
 export default function Bookings() {
 
     const [bookings, setBookings] = useState(null);
     const [usernames, setUsernames] = useState();
-    const [openDialog, setOpenDialog] = React.useState(false);
 
     const getUsernames = () => {
         let final = {};
@@ -110,31 +111,32 @@ export default function Bookings() {
 
     const components = {
         EditField: props => {
-            if (props.columnDef.field === 'VIN') {
-                return <FormDialog title={'Select Car'} open={openDialog} setOpen={setOpenDialog}>
+            if (props.columnDef.field === 'VIN' && _.isEmpty(props.value)) {
+                return <FormDialog title={'Select Car'}>
                     <CarSelection
-                        onChange={props.onChange} setOpenDialog={setOpenDialog}
+                        onChange={props.onChange}
                     /></FormDialog>
             }
 
-            if (props.columnDef.field === 'PROMOCODE') {
-                return <FormDialog title={'Select Promotion'} open={openDialog} setOpen={setOpenDialog}>
+            if (props.columnDef.field === 'PROMOCODE' && _.isEmpty(props.value)) {
+                return <FormDialog title={'Select Promotion'}>
                     <PromotionsSelection
-                        onChange={props.onChange} setOpenDialog={setOpenDialog}
+                        onChange={props.onChange}
                     /></FormDialog>
             }
 
-            if (props.columnDef.field === 'PICKUP_STATION_ID') {
-                return <FormDialog title={'Select Pickup Station'} open={openDialog} setOpen={setOpenDialog}>
+
+            if (props.columnDef.field === 'PICKUP_STATION_ID' && _.isEmpty(props.value)) {
+                return <FormDialog title={'Select Pickup Station'} >
                     <CarStationSelection
-                        onChange={props.onChange} setOpenDialog={setOpenDialog}
+                        onChange={props.onChange}
                     /></FormDialog>
             }
 
-            if (props.columnDef.field === 'DROPOFF_STATION_ID') {
-                return <FormDialog title={'Select Dropoff Station'} open={openDialog} setOpen={setOpenDialog}>
+            if (props.columnDef.field === 'DROPOFF_STATION_ID' && _.isEmpty(props.value)) {
+                return <FormDialog title={'Select Dropoff Station'} >
                     <CarStationSelection
-                        onChange={props.onChange} setOpenDialog={setOpenDialog}
+                        onChange={props.onChange}
                     /></FormDialog>
             }
 
@@ -219,21 +221,23 @@ export default function Bookings() {
     }
 
     function addCall(data) {
+        console.log(data);
         fetch(`/api/bookings/initiate`, {
             method: 'POST',
             body: JSON.stringify({
-                dropLocationLat: data.DROP_LOC_LAT_INS,
-                dropLocationLong: data.DROP_LOC_LONG_INS,
-                pickupLocationLat: data.PICKUP_LOC_LAT_INS,
-                pickupLocationLong: data.PICKUP_LOC_LONG_INS,
-                bookingTime: data.BOOKING_TIME_INS,
-                endTime: data.END_TIME_INS,
-                accountId: data.ACCOUNT_ID_INS,
-                vin: data.VIN_INS,
-                promocode: data.PROMOCODE_INS,
-                pickupStationId: data.PICKUP_STATION_ID_INS,
-                dropoffStationId: data.DROPOFF_STATION_ID_INS,
-                isChauffeurPickup: data.CHAUFFER_PICKUP_INS
+                dropLocationLat: data.DROP_LOC_LAT,
+                dropLocationLong: data.DROP_LOC_LONG,
+                pickupLocationLat: data.PICKUP_LOC_LAT,
+                pickupLocationLong: data.PICKUP_LOC_LONG,
+                bookingTime: convertDateToTimestamp(data.BOOKING_TIME),
+                endTime: convertDateToTimestamp(data.END_TIME),
+                accountId: data.ACCOUNT_ID,
+                vin: data.VIN,
+                promocode: data.PROMOCODE,
+                pickupStationId: data.PICKUP_STATION_ID,
+                dropoffStationId: data.DROPOFF_STATION_ID,
+                isChauffeurPickup: data.CHAUFFER_PICKUP,
+                startTime: convertDateToTimestamp(data.START_TIME)
             }),
             headers: {
                 'Accept': 'application/json, text/plain',
