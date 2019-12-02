@@ -23,9 +23,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FullScreenDialog({children, title, closeDialog}) {
+export default function FullScreenDialog({children, title, open, setOpen}) {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -33,7 +32,6 @@ export default function FullScreenDialog({children, title, closeDialog}) {
 
     const handleClose = () => {
         setOpen(false);
-        closeDialog();
     };
     return (
         <div>

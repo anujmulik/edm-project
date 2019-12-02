@@ -12,10 +12,8 @@ import _ from "lodash";
 export default function Bookings() {
 
     const [bookings, setBookings] = useState(null);
-    const [vin, setVin] = useState(null);
-    const [startTime, setStartTime] = useState();
-    const [endTime, setEndTime] = useState();
     const [usernames, setUsernames] = useState();
+    const [openDialog, setOpenDialog] = React.useState(false);
 
     const getUsernames = () => {
         let final = {};
@@ -111,27 +109,22 @@ export default function Bookings() {
     const components = {
         EditField: props => {
             if (props.columnDef.field === 'VIN') {
-                return <FormDialog title={'Select Car'} closeDialog={() => {
-                    setVin(null);
-                    setStartTime(null);
-                    setEndTime(null)
-                }
-                }>
+                return <FormDialog title={'Select Car'} open={openDialog} setOpen={setOpenDialog}>
                     <CarSelection
-                        endTime={endTime}
-                        setEndTime={setEndTime}
-                        startTime={startTime}
-                        setStartTime={setStartTime}
-                        setVin={setVin}
+                        onChange={props.onChange} setOpenDialog={setOpenDialog}
                     /></FormDialog>
             }
 
             if (props.columnDef.field === 'ACCOUNT_ID')
                 _.update(props, 'columnDef.lookup', () => getUsernames());
 
+            if ((props.columnDef.field === 'PICKUP_LOC_LAT' || props.columnDef.field === 'PICKUP_LOC_LONG'
+            || props.columnDef.field === 'DROP_LOC_LAT' || props.columnDef.field === 'DROP_LOC_LONG') &&
+                props.rowData.CHAUFFER_PICKUP === 'N')
+                return <MTableEditField {...props} disabled={true}/>;
+
 
             return <MTableEditField {...props}/>;
-
         },
 
         Action: props => {

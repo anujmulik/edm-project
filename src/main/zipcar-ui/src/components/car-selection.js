@@ -6,10 +6,12 @@ import CloseIcon from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
 import DateTimePicker from "./datetimepicker";
 
-export default function CarSelection({ setVin, setStartTime, setEndTime, startTime, endTime}) {
+export default function CarSelection({ onChange, setOpenDialog}) {
     const [cars, setCars] = useState(null);
     const [selectedRow, onSelect] = useState(null);
     const [tripCost, setTripCost] = useState(0);
+    const [startTime, setStartTime] = useState(null);
+    const [endTime, setEndTime] = useState(null);
 
     const fetchData = () => {
         fetch('/api/cars/all')
@@ -24,7 +26,17 @@ export default function CarSelection({ setVin, setStartTime, setEndTime, startTi
     };
 
     const fetchCost = () => {
-        fetch(`/api/bookings/cost?vin=${selectedRow.VIN}&start-time=${startTime}&end-time=${endTime}`)
+
+        const startTimeIns =  startTime.getFullYear() + "-" + (startTime.getMonth() + 1)
+            + "-" + startTime.getDate() + " " + startTime.getHours() + ":" + startTime.getMinutes()
+            + ":" + startTime.getSeconds();
+
+        const endTimeIns =  endTime.getFullYear() + "-" + (endTime.getMonth() + 1)
+            + "-" + endTime.getDate() + " " + endTime.getHours() + ":" + endTime.getMinutes()
+            + ":" + endTime.getSeconds();
+
+
+        fetch(`/api/bookings/cost?vin=${selectedRow.VIN}&start-time=${startTimeIns}&end-time=${endTimeIns}`)
             .then(handleErrors)
             .then(results => results.json())
             .then(data => {
@@ -81,24 +93,11 @@ export default function CarSelection({ setVin, setStartTime, setEndTime, startTi
                     <div style={{display: 'flex', flexDirection: 'row', margin: '20px 0 20px 20px'}}>
                         <div style={{marginRight: '20px'}}>
                             <DateTimePicker label={'Select Start Time'} selectedDate={startTime}
-                                            handleDateChange={(date) =>
-                                            {
-                                                const startTime =  date.getFullYear() + "-" + (date.getMonth() + 1)
-                                                    + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes()
-                                                    + ":" + date.getSeconds();
-
-                                                setStartTime(startTime);
-                                            }}/>
+                                            handleDateChange={(date) => setStartTime(date)}/>
                         </div>
                         <div style={{marginRight: '20px'}}>
                             <DateTimePicker label={'Select End Time'} selectedDate={endTime}
-                                            handleDateChange={(date) => {
-                                                const endTime =  date.getFullYear() + "-" + (date.getMonth() + 1)
-                                                    + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes()
-                                                    + ":" + date.getSeconds();
-
-                                                setEndTime(endTime);
-                                            }}/>
+                                            handleDateChange={(date) => setEndTime(date)}/>
                         </div>
                     </div>
                     <div style={{marginLeft: '20px'}}> Trip Cost: ${tripCost} </div>
@@ -110,16 +109,15 @@ export default function CarSelection({ setVin, setStartTime, setEndTime, startTi
                             </Button>
                         </div>
                         <div style={{marginRight: '20px'}}>
-                            <Button variant="contained" color="primary" onClick={() => setVin(selectedRow.VIN)}
+                            <Button variant="contained" color="primary" onClick={() => {
+                                onChange(selectedRow.VIN);
+                                setOpenDialog(false);
+                            }}
                                     disabled={!selectedRow}>
                                 Confirm
                             </Button>
                         </div>
-                        <Button variant="contained" color="secondary" onClick={() => {
-                            setVin();
-                            setStartTime(null);
-                            setEndTime(null);
-                        }}>
+                        <Button variant="contained" color="secondary" onClick={()=>setOpenDialog(false)}>
                             Cancel
                         </Button>
                     </div>

@@ -12,24 +12,29 @@ export const query4Text = `
 with segment_count as(
 
     select C.SEGMENT , count(b.booking_id) as NUM_SEGMENT_BOOKED, a.CUSTOMER_ID as cust_id from bookings b join cars c on
-            c.vin=b.vin join accounts a on a.ACCOUNT_ID=b.ACCOUNT_ID join
-                                                                                                CUSTOMERS cs on cs.CUSTOMER_ID= a.CUSTOMER_ID
+            c.vin=b.vin join accounts a on a.ACCOUNT_ID=b.ACCOUNT_ID join CUSTOMERS cs on cs.CUSTOMER_ID= a.CUSTOMER_ID
     group by c.segment,  a.CUSTOMER_ID
 )
-select first_name, last_name , c.CUSTOMER_ID , count(b.booking_id) as TOTAL_NUM_BOOKINGS,cr.segment,
-       sum(b.TOTAL_DISTANCE_TRAVELLED), sum(TOTAL_FINES), sc.NUM_SEGMENT_BOOKED as NUM_SEGMENT_BOOKED ,
-       (case
-            when count(b.booking_id) > 15 then 'GOLD CUSTOMER'
-            when count(b.booking_id) > 10 then 'SILVER CUSTOMER'
-            when count(b.booking_id) > 2 then 'BRONZE CUSTOMER'
-            when count(b.booking_id) <= 2 and count(b.booking_id) >0  then 'REGULAR CUSTOMER'
-            when count(b.booking_id)  = 0  then 'NEW CUSTOMER'
-           END) as "Customer_type"
+select first_name AS FIRST_NAME
+     , last_name AS LAST_NAME
+     , c.CUSTOMER_ID AS CUSTOMER_ID
+     , count(b.booking_id) as TOTAL_NUM_BOOKINGS
+     ,coalesce(cr.segment, 'N/A') AS SEGMENT
+     ,coalesce(sum(b.TOTAL_DISTANCE_TRAVELLED),0) AS TOTAL_DISTANCE_TRAVELLED
+     , coalesce(sum(TOTAL_FINES),0) AS TOTAL_FINES
+     , coalesce(sc.NUM_SEGMENT_BOOKED,0) as NUM_SEGMENT_BOOKED ,
+    (case
+         when count(b.booking_id) > 15 then 'GOLD CUSTOMER'
+         when count(b.booking_id) > 10 then 'SILVER CUSTOMER'
+         when count(b.booking_id) > 2 then 'BRONZE CUSTOMER'
+         when count(b.booking_id) <= 2 and count(b.booking_id) >0  then 'REGULAR CUSTOMER'
+         when count(b.booking_id)  = 0  then 'NEW CUSTOMER'
+        END) as CUSTOMER_TYPE
 from CUSTOMERS c
          left outer join ACCOUNTS a on a.CUSTOMER_ID=c.customer_id
          left outer join bookings b on b.ACCOUNT_ID=a.ACCOUNT_ID
          left outer join segment_count sc on sc.cust_id= c.CUSTOMER_ID
          left outer join cars cr on cr.vin=b.vin
-
-group by c.customer_id, sc.NUM_SEGMENT_BOOKED,cr.segment, last_name, c.CUSTOMER_ID, first_name, sc.NUM_SEGMENT_BOOKED;
-`;
+where cr.segment = sc.SEGMENT
+group by c.customer_id, sc.NUM_SEGMENT_BOOKED,cr.segment, last_name, c.CUSTOMER_ID, first_name, sc.NUM_SEGMENT_BOOKED
+order by c.CUSTOMER_ID;`;
