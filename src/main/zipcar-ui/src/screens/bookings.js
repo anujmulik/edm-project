@@ -7,6 +7,8 @@ import {MTableAction, MTableEditField} from "material-table";
 import FormDialog from "../components/form-dialog";
 import CarSelection from "../components/car-selection";
 import _ from "lodash";
+import PromotionsSelection from "../components/promocode-selection";
+import CarStationSelection from "../components/car-station-selection";
 
 
 export default function Bookings() {
@@ -111,6 +113,27 @@ export default function Bookings() {
             if (props.columnDef.field === 'VIN') {
                 return <FormDialog title={'Select Car'} open={openDialog} setOpen={setOpenDialog}>
                     <CarSelection
+                        onChange={props.onChange} setOpenDialog={setOpenDialog}
+                    /></FormDialog>
+            }
+
+            if (props.columnDef.field === 'PROMOCODE') {
+                return <FormDialog title={'Select Promotion'} open={openDialog} setOpen={setOpenDialog}>
+                    <PromotionsSelection
+                        onChange={props.onChange} setOpenDialog={setOpenDialog}
+                    /></FormDialog>
+            }
+
+            if (props.columnDef.field === 'PICKUP_STATION_ID') {
+                return <FormDialog title={'Select Pickup Station'} open={openDialog} setOpen={setOpenDialog}>
+                    <CarStationSelection
+                        onChange={props.onChange} setOpenDialog={setOpenDialog}
+                    /></FormDialog>
+            }
+
+            if (props.columnDef.field === 'DROPOFF_STATION_ID') {
+                return <FormDialog title={'Select Dropoff Station'} open={openDialog} setOpen={setOpenDialog}>
+                    <CarStationSelection
                         onChange={props.onChange} setOpenDialog={setOpenDialog}
                     /></FormDialog>
             }
