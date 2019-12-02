@@ -22,11 +22,11 @@ export default function PromotionsSelection({ onChange, setOpenDialog}) {
     };
 
     const promotionsColumns = [
-        {title: 'VIN', field: 'PROMOCODE'},
-        {title: 'Number of Seats', field: 'DISCOUNT_VALUE', type: 'numeric'},
-        {title: 'Year', field: 'EFFECTIVE_FROM', type: 'date'},
-        {title: 'Type', field: 'EXPIRY_DATE', type: 'date'},
-        {title: 'Model', field: 'DISCOUNT_TYPE'}
+        {title: 'Promotion Code', field: 'PROMOCODE'},
+        {title: 'Discount Value', field: 'DISCOUNT_VALUE', type: 'numeric'},
+        {title: 'Effective From', field: 'EFFECTIVE_FROM', type: 'date'},
+        {title: 'Expiry Date', field: 'EXPIRY_DATE', type: 'date'},
+        {title: 'Discount Type', field: 'DISCOUNT_TYPE'}
     ];
 
     useEffect(() => {
