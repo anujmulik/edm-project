@@ -221,7 +221,7 @@ export default function Bookings() {
     }
 
     function addCall(data) {
-        console.log(data);
+
         fetch(`/api/bookings/initiate`, {
             method: 'POST',
             body: JSON.stringify({

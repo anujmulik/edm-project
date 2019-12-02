@@ -37,8 +37,7 @@ public class RefundService {
         SqlParameterSource paramMap = new MapSqlParameterSource()
                 .addValue("amount_ins", refund.getAmount())
                 .addValue("booking_id_ins", refund.getBookingId())
-                .addValue("reason_ins", refund.getReason())
-                .addValue("refund_timestamp_ins", refund.getRefundTimestamp());
+                .addValue("reason_ins", refund.getReason());
         call.execute(paramMap);
     }
 
@@ -61,8 +60,7 @@ public class RefundService {
                 .addValue("instance_ins", instance)
                 .addValue("amount_ins", refund.getAmount())
                 .addValue("booking_id_ins", refund.getBookingId())
-                .addValue("reason_ins", refund.getReason())
-                .addValue("refund_timestamp_ins", refund.getRefundTimestamp());
+                .addValue("reason_ins", refund.getReason());
         call.execute(paramMap);
     }
 

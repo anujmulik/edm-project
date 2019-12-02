@@ -4,21 +4,9 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
-const refundColumns = [
-    { title: 'Booking ID', field: 'BOOKING_ID', editable: 'onAdd'},
-    { title: 'Amount', field: 'AMOUNT', type: 'numeric' },
-    { title: 'Reason', field: 'REASON' },
-    { title: 'Refund Timestamp', field: 'REFUND_TIMESTAMP', type: 'datetime'},
-    {
-        title: 'Status',
-        field: 'STATUS',
-        lookup: { "INITIATED": 'Initiated', "APPROVED": 'Approved', "DECLINED": 'Declined' },
-        editable: 'never'
-    },
-];
-
 export default function Refunds () {
     const [refunds, setRefunds] = useState(null);
+    const [bookingIds, setBookingIds] = useState(null);
 
     const fetchData = () => {
         fetch('/api/refunds/all')
@@ -26,7 +14,32 @@ export default function Refunds () {
             .then(data => {
                 setRefunds(data);
             });
+
+        fetch('/api/bookings/all')
+            .then(results => results.json())
+            .then(data => {
+                setBookingIds(data.map (booking=> booking.BOOKING_ID));
+            });
     };
+
+    const getBookingIds = () => {
+        let final = {};
+        bookingIds.map(booking => (final[booking]=`${booking}`));
+        return final;
+    };
+
+    const refundColumns = ()=> [
+        { title: 'Booking ID', field: 'BOOKING_ID', editable: 'onAdd', lookup: getBookingIds()},
+        { title: 'Amount', field: 'AMOUNT', type: 'numeric' },
+        { title: 'Reason', field: 'REASON' },
+        { title: 'Refund Timestamp', field: 'REFUND_TIMESTAMP', type: 'datetime', editable: 'never'},
+        {
+            title: 'Status',
+            field: 'STATUS',
+            lookup: { "INITIATED": 'Initiated', "APPROVED": 'Approved', "DECLINED": 'Declined' },
+            editable: 'never'
+        },
+    ];
 
     useEffect(() => {
         fetchData();
@@ -56,8 +69,7 @@ export default function Refunds () {
                 bookingId: data.BOOKING_ID,
                 amount: data.AMOUNT,
                 status: 'INITIATED',
-                reason: data.REASON,
-                refundTimestamp: data.REFUND_TIMESTAMP
+                reason: data.REASON
             }),
             headers: {
                 'Accept': 'application/json, text/plain',
@@ -77,8 +89,7 @@ export default function Refunds () {
                 bookingId: data.BOOKING_ID,
                 amount: data.AMOUNT,
                 status: 'INITIATED',
-                reason: data.REASON,
-                refundTimestamp: data.REFUND_TIMESTAMP
+                reason: data.REASON
             }),
             headers: {
                 'Accept': 'application/json, text/plain',
@@ -107,15 +118,15 @@ export default function Refunds () {
 
     return(
         <div>
-        { !refunds ? 'Loading...' :
+        { !refunds || !bookingIds ? 'Loading...' :
             <TableWithSearch
             title ={'Refunds'}
             data={refunds}
-            columns={refundColumns}
+            columns={refundColumns()}
             fetchCall={fetchData}
             addCall={addCall}
             updateCall={updateCall}
-            deteleCall={deleteCall}
+            deleteCall={deleteCall}
             /> }
 
             {open && <Snackbar
@@ -139,7 +150,7 @@ export default function Refunds () {
                         onClick={handleClose}
                     >
                         <CloseIcon />
-                    </IconButton>,
+                    </IconButton>
                 ]}
             />}
         </div>
