@@ -12,7 +12,7 @@ const csrColumns = [
     { title: 'Last Name', field: 'LAST_NAME'},
     { title: 'Escalation Contact', field: 'ESCALATION_CONTACT'},
     { title: 'Shift Details', field: 'SHIFT_DETAILS', lookup: {A:'A', B:'B',C:'C'}},
-    { title: 'Email ID', field: 'EMAIL_ID'}
+    { title: 'Email ID', field: 'EMAIL_ID', editable: 'onAdd'}
 ];
 
 export default function CSR () {
