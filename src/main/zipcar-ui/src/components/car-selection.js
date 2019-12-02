@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import TableWithSearch from "../components/table-with-search";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -6,7 +6,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
 import DateTimePicker from "./datetimepicker";
 
-export default function CarSelection({ onChange, setOpenDialog}) {
+export default function CarSelection({onChange, setOpenDialog, isCalculator}) {
     const [cars, setCars] = useState(null);
     const [selectedRow, onSelect] = useState(null);
     const [tripCost, setTripCost] = useState(0);
@@ -27,11 +27,11 @@ export default function CarSelection({ onChange, setOpenDialog}) {
 
     const fetchCost = () => {
 
-        const startTimeIns =  startTime.getFullYear() + "-" + (startTime.getMonth() + 1)
+        const startTimeIns = startTime.getFullYear() + "-" + (startTime.getMonth() + 1)
             + "-" + startTime.getDate() + " " + startTime.getHours() + ":" + startTime.getMinutes()
             + ":" + startTime.getSeconds();
 
-        const endTimeIns =  endTime.getFullYear() + "-" + (endTime.getMonth() + 1)
+        const endTimeIns = endTime.getFullYear() + "-" + (endTime.getMonth() + 1)
             + "-" + endTime.getDate() + " " + endTime.getHours() + ":" + endTime.getMinutes()
             + ":" + endTime.getSeconds();
 
@@ -109,18 +109,24 @@ export default function CarSelection({ onChange, setOpenDialog}) {
                                 Fetch Cost
                             </Button>
                         </div>
-                        <div style={{marginRight: '20px'}}>
-                            <Button variant="contained" color="primary" onClick={() => {
-                                onChange(selectedRow.VIN);
-                                setOpenDialog(false);
-                            }}
-                                    disabled={!selectedRow}>
-                                Confirm
+
+                        {!isCalculator &&
+                        <Fragment>
+                            <div style={{marginRight: '20px'}}>
+                                <Button variant="contained" color="primary" onClick={() => {
+                                    onChange(selectedRow.VIN);
+                                    setOpenDialog(false);
+                                }}
+                                        disabled={!selectedRow}>
+                                    Confirm
+                                </Button>
+                            </div>
+                            < Button variant="contained" color="secondary" onClick={() => setOpenDialog(false)}>
+                                Cancel
                             </Button>
-                        </div>
-                        <Button variant="contained" color="secondary"  onClick={()=>setOpenDialog(false)}>
-                            Cancel
-                        </Button>
+                        </Fragment>
+                        }
+
                     </div>
 
 
