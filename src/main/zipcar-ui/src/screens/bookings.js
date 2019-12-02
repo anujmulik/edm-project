@@ -104,9 +104,9 @@ export default function Bookings() {
         {title: 'Promotion Code', field: 'PROMOCODE', editable: 'onAdd'},
         {title: 'Pickup Station ID', field: 'PICKUP_STATION_ID', editable: 'onAdd'},
         {title: 'Dropoff Station ID', field: 'DROPOFF_STATION_ID', editable: 'onAdd'},
-        {title: 'Total Fines', field: 'TOTAL_FINES', editable: 'never'},
+        {title: 'Total Fines', field: 'TOTAL_FINES', editable: 'never', type: 'currency'},
         {title: 'Actual End Time', field: 'ACTUAL_END_TIME', editable: 'onUpdate', type: 'datetime'},
-        {title: 'Base Booking Amount', field: 'BASE_BOOKING_AMOUNT', editable: 'never'}
+        {title: 'Base Booking Amount', field: 'BASE_BOOKING_AMOUNT', editable: 'never', type: 'currency'}
     ];
 
     const components = {

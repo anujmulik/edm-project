@@ -30,7 +30,7 @@ export default function Refunds () {
 
     const refundColumns = ()=> [
         { title: 'Booking ID', field: 'BOOKING_ID', editable: 'onAdd', lookup: getBookingIds()},
-        { title: 'Amount', field: 'AMOUNT', type: 'numeric' },
+        { title: 'Amount', field: 'AMOUNT', type: 'currency' },
         { title: 'Reason', field: 'REASON' },
         { title: 'Refund Timestamp', field: 'REFUND_TIMESTAMP', type: 'datetime', editable: 'never'},
         {
