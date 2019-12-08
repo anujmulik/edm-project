@@ -64,4 +64,24 @@ public class RefundService {
         call.execute(paramMap);
     }
 
+    public void approveRefund(int instance, String bookingId) {
+        SimpleJdbcCall call =
+                new SimpleJdbcCall(jdbcTemplate).withProcedureName("APPROVE_REFUND");
+
+        SqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("booking_id_ins", bookingId)
+                .addValue("instance_ins", instance);
+        call.execute(paramMap);
+    }
+
+    public void declineRefund(int instance, String bookingId) {
+        SimpleJdbcCall call =
+                new SimpleJdbcCall(jdbcTemplate).withProcedureName("DECLINE_REFUND");
+
+        SqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("booking_id_ins", bookingId)
+                .addValue("instance_ins", instance);
+        call.execute(paramMap);
+    }
+
 }

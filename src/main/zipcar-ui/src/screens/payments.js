@@ -5,39 +5,46 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import {MTableAction} from "material-table";
 
-export default function Refunds () {
-    const [refunds, setRefunds] = useState(null);
-    const [bookingIds, setBookingIds] = useState(null);
+export default function Payments() {
+    const [payments, setPayments] = useState(null);
+    const [usernames, setUserNames] = useState(null);
 
     const fetchData = () => {
-        fetch('/api/refunds/all')
+        fetch('/api/payments/all')
             .then(results => results.json())
             .then(data => {
-                setRefunds(data);
+                setPayments(data);
             });
 
-        fetch('/api/bookings/all')
+        fetch('/api/accounts/all')
             .then(results => results.json())
             .then(data => {
-                setBookingIds(data.map (booking=> booking.BOOKING_ID));
+                const names = data.map(user => ({username: user.USERNAME, accountId: user.ACCOUNT_ID}));
+                setUserNames(names);
             });
     };
 
-    const getBookingIds = () => {
+
+    const getUsernames = () => {
         let final = {};
-        bookingIds.map(booking => (final[booking]=`${booking}`));
+        usernames.map(user => (final[user.accountId] = `${user.username}`));
         return final;
     };
 
-    const refundColumns = ()=> [
-        { title: 'Booking ID', field: 'BOOKING_ID', editable: 'onAdd', lookup: getBookingIds()},
-        { title: 'Amount', field: 'AMOUNT', type: 'currency' },
-        { title: 'Reason', field: 'REASON' },
-        { title: 'Refund Timestamp', field: 'REFUND_TIMESTAMP', type: 'datetime', editable: 'never'},
+    const paymentColumns = () => [
+        {title: 'Booking ID', field: 'BOOKING_ID', editable: 'never'},
+        {title: 'Payment ID', field: 'PAYMENT_ID', editable: 'never'},
+        {title: 'Account ID', field: 'ACCOUNT_ID', lookup: getUsernames(), editable: 'onAdd'},
+        {title: 'Amount', field: 'AMOUNT', type: 'currency'},
+        {title: 'Street Address', field: 'BILLING_STR_ADD'},
+        {title: 'City', field: 'BILLING_CITY'},
+        {title: 'State', field: 'BILLING_STATE'},
+        {title: 'Country', field: 'BILLING_COUNTRY'},
+        {title: 'Payment Timestamp', field: 'PAYMENT_TIME', type: 'datetime', editable: 'never'},
         {
             title: 'Status',
             field: 'STATUS',
-            lookup: { "INITIATED": 'Initiated', "APPROVED": 'Approved', "DECLINED": 'Declined' },
+            lookup: {"INITIATED": 'Initiated', "COMPLETED": 'Completed'},
             editable: 'never'
         },
     ];
@@ -63,14 +70,16 @@ export default function Refunds () {
         return response;
     }
 
-    function addCall (data)  {
-        fetch('/api/refunds', {
+    function addCall(data) {
+        fetch('/api/payments', {
             method: 'POST',
             body: JSON.stringify({
-                bookingId: data.BOOKING_ID,
                 amount: data.AMOUNT,
-                status: 'INITIATED',
-                reason: data.REASON
+                billingStreetAddress: data.BILLING_STR_ADD,
+                billingCity: data.BILLING_CITY,
+                billingState: data.BILLING_STATE,
+                billingCountry: data.BILLING_COUNTRY,
+                accountId: data.ACCOUNT_ID
             }),
             headers: {
                 'Accept': 'application/json, text/plain',
@@ -83,14 +92,15 @@ export default function Refunds () {
             });
     }
 
-    function updateCall (data)  {
-        fetch(`/api/refunds/${data.BOOKING_ID}/${data.INSTANCE}`, {
+    function updateCall(data) {
+        fetch(`/api/payments/${data.PAYMENT_ID}`, {
             method: 'PUT',
             body: JSON.stringify({
-                bookingId: data.BOOKING_ID,
                 amount: data.AMOUNT,
-                status: 'INITIATED',
-                reason: data.REASON
+                billingStreetAddress: data.BILLING_STR_ADD,
+                billingCity: data.BILLING_CITY,
+                billingState: data.BILLING_STATE,
+                billingCountry: data.BILLING_COUNTRY
             }),
             headers: {
                 'Accept': 'application/json, text/plain',
@@ -103,22 +113,8 @@ export default function Refunds () {
             });
     }
 
-    function declineRefund(data) {
-        fetch(`/api/refunds/decline/${data.BOOKING_ID}/${data.INSTANCE}`, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json, text/plain',
-                'Content-Type': 'application/json;charset=UTF-8'
-            }
-        }).then(handleErrors)
-            .then(response => fetchData())
-            .catch((error) => {
-                setOpen(true);
-            });
-    }
-
-    function approveRefund(data) {
-        fetch(`/api/refunds/approve/${data.BOOKING_ID}/${data.INSTANCE}`, {
+    function confirmPayment(data) {
+        fetch(`/api/payments/confirm/${data.PAYMENT_ID}`, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json, text/plain',
@@ -133,36 +129,16 @@ export default function Refunds () {
 
     const actions = [
         {
-            icon: 'block',
-            tooltip: 'Reject Refund',
-            onClick: (event, rowData) => declineRefund(rowData)
-        }, {
             icon: 'check_circle_outline',
-            tooltip: 'Approve Refund',
-            onClick: (event, rowData) => approveRefund(rowData)
+            tooltip: 'Confirm Payment',
+            onClick: (event, rowData) => confirmPayment(rowData)
         }
     ];
-
-    function deleteCall(data) {
-        fetch(`/api/refunds/${data.BOOKING_ID}/${data.INSTANCE}`, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json, text/plain',
-                'Content-Type': 'application/json;charset=UTF-8'
-            }
-        }).then(handleErrors)
-            .then(response => fetchData())
-            .catch((error) => {
-                setOpen(true);
-            });
-    }
 
     const components = {
         Action: props => {
             let disabled = false;
-            if (props.action.tooltip === 'Reject Refund')
-                disabled = props.data.STATUS !== 'INITIATED';
-            else if (props.action.tooltip === 'Approve Refund')
+            if (props.action.tooltip === 'Confirm Payment')
                 disabled = props.data.STATUS !== 'INITIATED';
             else if (props.action.tooltip === 'Add')
                 disabled = false;
@@ -180,18 +156,18 @@ export default function Refunds () {
 
     return (
         <div>
-            {!refunds || !bookingIds ? 'Loading...' :
+            {!payments || !usernames ? 'Loading...' :
                 <TableWithSearch
-                    title={'Refunds'}
-                    data={refunds}
-                    columns={refundColumns()}
+                    title={'Payments'}
+                    data={payments}
+                    columns={paymentColumns()}
                     fetchCall={fetchData}
                     addCall={addCall}
                     updateCall={updateCall}
-                    deleteCall={deleteCall}
                     actions={actions}
                     components={components}
-                /> }
+                    deletable={false}
+                />}
 
             {open && <Snackbar
                 anchorOrigin={{
@@ -213,7 +189,7 @@ export default function Refunds () {
                         color="inherit"
                         onClick={handleClose}
                     >
-                        <CloseIcon />
+                        <CloseIcon/>
                     </IconButton>
                 ]}
             />}
