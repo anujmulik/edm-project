@@ -14,11 +14,11 @@
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react": "^16.11.0",
+    "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.11.0",
     "react-scripts": "3.2.0",
     "react-select": "^3.0.8",
-    "react-syntax-highlighter": "^11.0.2",
-    "use-clippy": "^1.0.4"
+    "react-syntax-highlighter": "^11.0.2"
   },
   "proxy": "http://localhost:8080",
   "scripts": {

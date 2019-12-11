@@ -109,7 +109,7 @@ export default function MainScreen() {
                 <Feedback/>
             </TabPanel>
             <TabPanel value={value} index={6}>
-                <Queries/>
+                <Queries value={value}/>
             </TabPanel>
             <TabPanel value={value} index={7}>
                 <CarSelection isCalculator={true}/>
