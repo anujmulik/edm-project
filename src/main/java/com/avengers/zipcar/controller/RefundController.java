@@ -29,14 +29,24 @@ public class RefundController {
     }
 
     @DeleteMapping("/api/refunds/{bookingId}/{instance}")
-    public void deleteRefund(@PathVariable String bookingId, @PathVariable int instance ) {
+    public void deleteRefund(@PathVariable String bookingId, @PathVariable int instance) {
         refundService.deleteRefund(bookingId, instance);
     }
 
     @PutMapping("/api/refunds/{bookingId}/{instance}")
-    public void updateRefund(@PathVariable String bookingId, @PathVariable int instance, @RequestBody Refund refund)
-    {
+    public void updateRefund(@PathVariable String bookingId, @PathVariable int instance, @RequestBody Refund refund) {
         refundService.updateRefund(refund, instance, bookingId);
+    }
+
+    @PutMapping("/api/refunds/approve/{bookingId}/{instance}")
+    public void approveRefund(@PathVariable String bookingId, @PathVariable int instance) {
+        refundService.approveRefund(instance, bookingId);
+    }
+
+    @PutMapping("/api/refunds/decline/{bookingId}/{instance}")
+
+    public void declineRefund(@PathVariable String bookingId, @PathVariable int instance) {
+        refundService.declineRefund(instance, bookingId);
     }
 
 }

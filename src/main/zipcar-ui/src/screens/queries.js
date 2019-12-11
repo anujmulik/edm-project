@@ -17,7 +17,7 @@ import {query5Text} from "../queries/query5";
 import {query4Text} from "../queries/query4";
 import {query3Text} from "../queries/query3";
 
-export default function Queries() {
+export default function Queries({value}) {
     const [query1, setQuery1] = useState(null);
     const [query2, setQuery2] = useState(null);
     const [query3, setQuery3] = useState(null);
@@ -32,76 +32,78 @@ export default function Queries() {
     const [query12, setQuery12] = useState(null);
 
     const fetchData = () => {
-        fetch('/api/query1')
-            .then(results => results.json())
-            .then(data => {
-                setQuery1(data);
-            });
+        if (value === 6) {
+            fetch('/api/query1')
+                .then(results => results.json())
+                .then(data => {
+                    setQuery1(data);
+                });
 
-        fetch('/api/query2')
-            .then(results => results.json())
-            .then(data => {
-                setQuery2(data);
-            });
-        fetch('/api/query3')
-            .then(results => results.json())
-            .then(data => {
-                setQuery3(data);
-            });
+            fetch('/api/query2')
+                .then(results => results.json())
+                .then(data => {
+                    setQuery2(data);
+                });
+            fetch('/api/query3')
+                .then(results => results.json())
+                .then(data => {
+                    setQuery3(data);
+                });
 
-        fetch('/api/query4')
-            .then(results => results.json())
-            .then(data => {
-                setQuery4(data);
-            });
+            fetch('/api/query4')
+                .then(results => results.json())
+                .then(data => {
+                    setQuery4(data);
+                });
 
-        fetch('/api/query5')
-            .then(results => results.json())
-            .then(data => {
-                setQuery5(data);
-            });
+            fetch('/api/query5')
+                .then(results => results.json())
+                .then(data => {
+                    setQuery5(data);
+                });
 
-        fetch('/api/query6')
-            .then(results => results.json())
-            .then(data => {
-                setQuery6(data);
-            });
+            fetch('/api/query6')
+                .then(results => results.json())
+                .then(data => {
+                    setQuery6(data);
+                });
 
-        fetch('/api/query7')
-            .then(results => results.json())
-            .then(data => {
-                setQuery7(data);
-            });
+            fetch('/api/query7')
+                .then(results => results.json())
+                .then(data => {
+                    setQuery7(data);
+                });
 
-        fetch('/api/query8')
-            .then(results => results.json())
-            .then(data => {
-                setQuery8(data);
-            });
+            fetch('/api/query8')
+                .then(results => results.json())
+                .then(data => {
+                    setQuery8(data);
+                });
 
-        fetch('/api/query9')
-            .then(results => results.json())
-            .then(data => {
-                setQuery9(data);
-            });
+            fetch('/api/query9')
+                .then(results => results.json())
+                .then(data => {
+                    setQuery9(data);
+                });
 
-        fetch('/api/query10')
-            .then(results => results.json())
-            .then(data => {
-                setQuery10(data);
-            });
+            fetch('/api/query10')
+                .then(results => results.json())
+                .then(data => {
+                    setQuery10(data);
+                });
 
-        fetch('/api/query11')
-            .then(results => results.json())
-            .then(data => {
-                setQuery11(data);
-            });
+            fetch('/api/query11')
+                .then(results => results.json())
+                .then(data => {
+                    setQuery11(data);
+                });
 
-        fetch('/api/query12')
-            .then(results => results.json())
-            .then(data => {
-                setQuery12(data);
-            });
+            fetch('/api/query12')
+                .then(results => results.json())
+                .then(data => {
+                    setQuery12(data);
+                });
+        }
     };
 
     const query1Columns = [
@@ -216,7 +218,7 @@ export default function Queries() {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [value]);
 
     const [open, setOpen] = React.useState(false);
 
