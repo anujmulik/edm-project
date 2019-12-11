@@ -26,8 +26,9 @@ public class Account {
     private String planType;
     private Date planStartDate;
     private Date planEndDate;
+    private float amountDue;
 
-    public Account(String customerId, String firstName, String lastName, String email, String dlNumber, String phone, Date dateOfBirth, String streetAddress, String city, String state, String country, String zipCode, Date dlExpiryDate, String issueState, String accountId, String isActive, String username, String password, String planId, String planType, Date planStartDate, Date planEndDate) {
+    public Account(String customerId, String firstName, String lastName, String email, String dlNumber, String phone, Date dateOfBirth, String streetAddress, String city, String state, String country, String zipCode, Date dlExpiryDate, String issueState, String accountId, String isActive, String username, String password, String planId, String planType, Date planStartDate, Date planEndDate, float amountDue) {
         this.customerId = customerId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -50,6 +51,7 @@ public class Account {
         this.planType = planType;
         this.planStartDate = planStartDate;
         this.planEndDate = planEndDate;
+        this.amountDue = amountDue;
     }
 
     public String getCustomerId() {
@@ -228,6 +230,14 @@ public class Account {
         this.planEndDate = planEndDate;
     }
 
+    public float getAmountDue() {
+        return amountDue;
+    }
+
+    public void setAmountDue(float amountDue) {
+        this.amountDue = amountDue;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
@@ -253,6 +263,7 @@ public class Account {
                 ", planType='" + planType + '\'' +
                 ", planStartDate=" + planStartDate +
                 ", planEndDate=" + planEndDate +
+                ", amountDue=" + amountDue +
                 '}';
     }
 }

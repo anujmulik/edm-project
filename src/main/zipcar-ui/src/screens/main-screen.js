@@ -15,9 +15,11 @@ import Feedback from "./feedback";
 import Queries from "./queries";
 import CarSelection from "../components/car-selection";
 import Payments from "./payments";
+import Fines from "./fines";
+import Accounts from "./accounts";
 
 function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
         <Typography
@@ -83,6 +85,8 @@ export default function MainScreen() {
                     <Tab label="Queries" {...a11yProps(6)} />
                     <Tab label="Cost Calculator" {...a11yProps(7)} />
                     <Tab label="Payments" {...a11yProps(8)} />
+                    <Tab label="Fines" {...a11yProps(9)} />
+                    <Tab label="Accounts" {...a11yProps(10)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
@@ -112,6 +116,12 @@ export default function MainScreen() {
             </TabPanel>
             <TabPanel value={value} index={8}>
                 <Payments/>
+            </TabPanel>
+            <TabPanel value={value} index={9}>
+                <Fines/>
+            </TabPanel>
+            <TabPanel value={value} index={10}>
+                <Accounts/>
             </TabPanel>
         </div>
     );
